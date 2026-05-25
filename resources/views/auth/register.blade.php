@@ -9,6 +9,29 @@
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
+        {{-- Identity Number --}}
+        <div class="mt-4">
+            <x-input-label for="identity_number" :value="__('NIS / NIP')" />
+            <x-text-input id="identity_number" class="block mt-1 w-full" type="text" name="identity_number" :value="old('identity_number')" required autofocus />
+            <x-input-error :messages="$errors->get('identity_number')" class="mt-2" />
+        </div>
+        {{-- Role --}}
+        <div class="mt-4">
+            <x-input-label for="role" :value="__('Mendaftar Sebagai')" />
+            <select id="role" name="role" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                <option value="siswa" {{ old('role') == 'siswa' ? 'selected' : '' }}>Siswa</option>
+                <option value="guru" {{ old('role') == 'guru' ? 'selected' : '' }}>Guru / Staf</option>
+            </select>
+            <x-input-error :messages="$errors->get('role')" class="mt-2" />
+        </div>
+
+        {{-- Class --}}
+        <div class="mt-4" id="class-group">
+            <x-input-label for="class" :value="__('Kelas')" />
+            <x-text-input id="class" class="block mt-1 w-full" type="text" name="class" :value="old('class')" placeholder="Contoh: XII" />
+            <x-input-error :messages="$errors->get('class')" class="mt-2" />
+        </div>
+
         <!-- Email Address -->
         <div class="mt-4">
             <x-input-label for="email" :value="__('Email')" />
@@ -49,4 +72,28 @@
             </x-primary-button>
         </div>
     </form>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const roleSelect = document.getElementById('role');
+        const classGroup = document.getElementById('class-group');
+        const classInput = document.getElementById('class');
+
+        function toggleClassInput() {
+            if (roleSelect.value === 'siswa') {
+                classGroup.style.display = 'block';
+                classInput.required = true;
+            } else {
+                classGroup.style.display = 'none';
+                classInput.required = false;
+                classInput.value = ''; // Kosongkan isi jika memilih guru
+            }
+        }
+
+        // Jalankan saat pertama kali halaman dimuat
+        toggleClassInput();
+
+        // Jalankan setiap kali pilihan role diubah
+        roleSelect.addEventListener('change', toggleClassInput);
+    });
+</script>
 </x-guest-layout>

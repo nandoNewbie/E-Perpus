@@ -32,12 +32,16 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'identity_number' => ['required', 'string', 'max:50', 'unique:users,identity_number'], // Wajib diisi & tidak boleh kembar
+            'role' => ['required', 'string', 'in:siswa,guru'], // Hanya boleh memilih siswa atau guru
+            'email' => ['nullable', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class], // Diubah jadi nullable (boleh kosong)
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
             'name' => $request->name,
+            'identity_number' => $request->identity_number,
+            'role' => $request->role,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);

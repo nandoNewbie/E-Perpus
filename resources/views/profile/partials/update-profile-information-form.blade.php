@@ -22,7 +22,23 @@
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
-
+        @if($user->role !== 'pustakawan')
+            <div class="mt-6">
+                <x-input-label for="identity_number" :value="__('NIS / NIP')" />
+                <x-text-input id="identity_number" name="identity_number" type="text" class="mt-1 block w-full bg-gray-100 text-gray-600 cursor-not-allowed" :value="old('identity_number', $user->identity_number)" readonly />
+                <p class="text-sm text-gray-500 mt-1">Nomor identitas tidak dapat diubah. Hubungi pustakawan jika ada kesalahan.</p>
+            </div>
+        @endif
+        <div class="mt-6">
+            <x-input-label for="role" :value="__('Status Pengguna (Role)')" />
+            <x-text-input id="role" type="text" class="mt-1 block w-full bg-gray-100 text-gray-600 capitalize cursor-not-allowed" :value="old('role', $user->role)" disabled />
+        </div>
+        @if($user->role === 'siswa')
+            <div class="mt-6">
+                <x-input-label for="class" :value="__('Kelas')" />
+                <x-text-input id="class" type="text" class="mt-1 block w-full bg-gray-100 text-gray-600 cursor-not-allowed" :value="old('class', $user->class)" readonly />
+            </div>
+        @endif
         <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />

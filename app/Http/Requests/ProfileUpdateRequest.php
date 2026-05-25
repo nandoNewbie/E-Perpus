@@ -19,6 +19,7 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => [
+                'nullable', // Diubah menjadi nullable karena siswa mungkin tidak punya email
                 'required',
                 'string',
                 'lowercase',
@@ -26,6 +27,7 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+            'identity_number' => ['nullable', 'string', Rule::unique(User::class)->ignore($this->user()->id)],
         ];
     }
 }
