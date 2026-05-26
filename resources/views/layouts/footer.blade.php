@@ -20,8 +20,8 @@
                     <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Navigasi</h3>
                     <ul class="space-y-2.5 text-sm">
                         <li><a href="{{ route('dashboard') }}" class="hover:text-indigo-400 transition">Beranda</a></li>
-                        <li><a href="{{ url('#books') }}" class="hover:text-indigo-400 transition">Daftar Buku</a></li>
-                        <li><a href="{{ url('#history')}}" class="hover:text-indigo-400 transition">Riwayat</a></li>
+                        <li><a href="{{ route('books.index') }}" class="hover:text-indigo-400 transition">Daftar Buku</a></li>
+                        <li><a href="{{ route('books.riwayat') }}" class="hover:text-indigo-400 transition">Riwayat</a></li>
                         <li><a href="{{ url('#faq') }}" class="hover:text-indigo-400 transition">FaQ</a></li>
                     </ul>
                 </div>

@@ -14,11 +14,11 @@
                     {{ __('Beranda') }}
                 </x-nav-link>
 
-                <x-nav-link :href="url('#books')" :active="request()->routeIs('books.*')">
+                <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
                     {{ __('Daftar Buku') }}
                 </x-nav-link>
 
-                <x-nav-link :href="url('#history')" :active="request()->routeIs('borrowings.*')">
+                <x-nav-link :href="route('books.riwayat')" :active="request()->routeIs('books.riwayat')">
                     {{ __('Riwayat Peminjaman') }}
                 </x-nav-link>
 
@@ -78,11 +78,11 @@
                 {{ __('Beranda') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="url('#books')">
+            <x-responsive-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
                 {{ __('Daftar Buku') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="url('#history')">
+            <x-responsive-nav-link :href="route('books.riwayat')" :active="request()->routeIs('books.riwayat')">
                 {{ __('Riwayat Peminjaman') }}
             </x-responsive-nav-link>
 
