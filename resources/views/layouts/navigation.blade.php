@@ -22,7 +22,7 @@
                     {{ __('Riwayat Peminjaman') }}
                 </x-nav-link>
 
-                <x-nav-link :href="url('#faq')" :active="request()->routeIs('faq')">
+                <x-nav-link :href="route('faq')" :active="request()->routeIs('faq')">
                     {{ __('FaQ') }}
                 </x-nav-link>
 
@@ -86,7 +86,7 @@
                 {{ __('Riwayat Peminjaman') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="url('#faq')">
+            <x-responsive-nav-link :href="route('faq')">
                 {{ __('FaQ') }}
             </x-responsive-nav-link>
 

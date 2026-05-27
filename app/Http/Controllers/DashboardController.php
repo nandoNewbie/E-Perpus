@@ -107,4 +107,22 @@ public function riwayat()
 
     return view('books.riwayat', compact('borrowings'));
 }
+
+public function index()
+{
+    // 1. Ambil 5 buku terbaru berdasarkan tanggal dibuat (created_at)
+    $latestBooks = Book::latest()->take(5)->get();
+
+    // 2. Ambil 5 buku terpopuler berdasarkan jumlah peminjaman terbanyak di tabel borrowings
+    // Grouping berdasarkan book_id, lalu hitung totalnya
+    $popularBooks = Book::select('books.*', DB::raw('COUNT(borrowings.id) as total_borrowed'))
+        ->leftJoin('borrowings', 'books.id', '=', 'borrowings.book_id')
+        ->groupBy('books.id', 'books.title', 'books.author', 'books.publisher', 'books.published_year', 'books.published_place', 'books.isbn', 'books.edition', 'books.language', 'books.category', 'books.ddc', 'books.stock', 'books.cover', 'books.description', 'books.created_at', 'books.updated_at') // Sebutkan kolom secara spesifik agar aman di mode SQL strict
+        ->orderBy('total_borrowed', 'desc')
+        ->take(5)
+        ->get();
+
+    // Kirim kedua data tersebut ke view dashboard bawaan kamu
+    return view('dashboard', compact('latestBooks', 'popularBooks'));
+}
 }

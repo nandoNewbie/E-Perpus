@@ -44,6 +44,100 @@
                 </div>
             </div>
 
+        <div class="py-12 bg-gray-50 min-h-screen">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-12">
+
+                <!-- SECTION 1: BUKU PALING SERING DIPINJAM (TERPOPULER) -->
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between border-b border-gray-200 pb-3">
+                        <div>
+                            <h2 class="text-xl font-black text-gray-900 tracking-tight flex items-center gap-2">
+                                🔥 Buku Terpopuler Bulan Ini
+                            </h2>
+                            <p class="text-xs text-gray-500 mt-0.5">Daftar buku literatur yang paling sering dibaca dan dipinjam oleh siswa.</p>
+                        </div>
+                    </div>
+
+                    <!-- Grid Kartu Buku Terpopuler -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                        @forelse($popularBooks as $index => $book)
+                            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition duration-200 relative overflow-hidden">
+                                
+                                <!-- Badge Nomor Peringkat Popularitas -->
+                                <div class="absolute top-0 right-0 bg-amber-500 text-white font-black text-xs px-2.5 py-1 rounded-bl-xl shadow-sm">
+                                    #{{ $index + 1 }}
+                                </div>
+
+                                <div class="space-y-3">
+                                    <!-- Placeholder Sampul -->
+                                    <div class="w-full aspect-[3/4] bg-gradient-to-br from-gray-50 to-amber-50/20 border border-gray-100 rounded-xl flex flex-col items-center justify-center p-3 text-center">
+                                        <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-gray-800 text-xs line-clamp-2 leading-snug min-h-[32px]">{{ $book->title }}</h3>
+                                        <p class="text-[11px] text-gray-400 truncate mt-0.5">{{ $book->author ?? 'Anonim' }}</p>
+                                        
+                                        <!-- Indikator Total Dipinjam -->
+                                        <p class="text-[10px] text-amber-600 font-bold bg-amber-50 inline-block px-1.5 py-0.5 rounded mt-2">
+                                            {{ $book->total_borrowed }}x Dipinjam
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <a href="{{ route('books.show', $book->id) }}" class="block text-center w-full py-1.5 bg-gray-50 hover:bg-amber-500 border border-gray-100 text-gray-600 hover:text-white text-[11px] font-bold rounded-lg transition">
+                                        Detail Buku
+                                    </a>
+                                </div>
+                            </div>
+                        @empty
+                            <p class="text-sm text-gray-400 col-span-full py-4 text-center">Belum ada data peminjaman buku.</p>
+                        @endforelse
+                    </div>
+                </div>
+            
+            <!-- SECTION 2: REKOMENDASI 5 BUKU TERBARU -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between border-b border-gray-200 pb-3">
+                    <div>
+                        <h2 class="text-xl font-black text-gray-900 tracking-tight flex items-center gap-2">
+                            ✨ Pilihan Buku Terbaru
+                        </h2>
+                        <p class="text-xs text-gray-500 mt-0.5">Koleksi buku teranyar yang baru saja ditambahkan ke perpustakaan.</p>
+                    </div>
+                    <a href="{{ route('books.index') }}" class="text-xs font-bold text-indigo-600 hover:text-indigo-500 bg-indigo-50 px-3 py-1.5 rounded-lg transition">
+                        Lihat Semua →
+                    </a>
+                </div>
+
+                <!-- Grid Kartu Buku Terbaru -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                    @forelse($latestBooks as $book)
+                        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition duration-200">
+                            <div class="space-y-3">
+                                <!-- Placeholder Sampul -->
+                                <div class="w-full aspect-[3/4] bg-gradient-to-br from-gray-50 to-indigo-50/30 border border-gray-100 rounded-xl flex flex-col items-center justify-center p-3 text-center relative">
+                                    <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                    <span class="absolute top-2 left-2 text-[9px] font-bold px-1.5 py-0.5 bg-indigo-600 text-white rounded-md">BARU</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-800 text-xs line-clamp-2 leading-snug min-h-[32px]">{{ $book->title }}</h3>
+                                    <p class="text-[11px] text-gray-400 truncate mt-0.5">{{ $book->author ?? 'Anonim' }}</p>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <a href="{{ route('books.show', $book->id) }}" class="block text-center w-full py-1.5 bg-gray-50 hover:bg-indigo-600 border border-gray-100 text-gray-600 hover:text-white text-[11px] font-bold rounded-lg transition">
+                                    Detail Buku
+                                </a>
+                            </div>
+                        </div>
+                    @empty
+                        <p class="text-sm text-gray-400 col-span-full py-4 text-center">Belum ada koleksi buku.</p>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+    </div>
+
         <div class="mt-12 bg-gradient-to-br from-amber-100 via-orange-50 to-yellow-50 rounded-3xl p-6 sm:p-10 border-2 border-dashed border-amber-300 shadow-sm relative overflow-hidden group">
             
             <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-yellow-200 rounded-full opacity-40 blur-2xl group-hover:scale-125 transition-transform duration-500"></div>
@@ -72,7 +166,7 @@
                 </div>
 
                 <div class="flex-shrink-0 w-full md:w-auto">
-                    <a href="{{ url('#faq') }}" class="block text-center px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold text-lg rounded-2xl shadow-lg hover:from-amber-600 hover:to-orange-600 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-orange-300">
+                    <a href="{{ route('faq') }}" class="block text-center px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold text-lg rounded-2xl shadow-lg hover:from-amber-600 hover:to-orange-600 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-orange-300">
                         Pencet Ini, Tolong! 🧠⚡
                     </a>
                     <p class="text-center text-xs text-amber-700 mt-2 font-medium italic">

@@ -6,10 +6,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Imports\BooksImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\WelcomeController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', WelcomeController::class)->name('welcome');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -27,8 +26,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         if (Auth::user()->role === 'pustakawan') {
             return redirect()->route('pustakawan.dashboard');
         }
-        // Jika siswa/guru, biarkan melihat halaman dashboard utama
-        return view('dashboard');
+        // Jika siswa/guru, Panggil fungsi 'index' di DashboardController
+        return app(DashboardController::class)->index();
     })->name('dashboard');
 
     // 2. KAMAR KHUSUS PUSTAKAWAN (DIKUNCI SATPAM ROLE)
@@ -59,6 +58,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/daftar-buku/{id}/pinjam', [DashboardController::class, 'pinjam'])->name('books.pinjam');
 
     Route::get('/riwayat-peminjaman', [DashboardController::class, 'riwayat'])->name('books.riwayat');
+    Route::view('/faq', 'faq')->name('faq');
 });
+
+
 
 require __DIR__.'/auth.php';
