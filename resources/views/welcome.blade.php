@@ -16,11 +16,11 @@
         
         <header class="w-full bg-white/80 backdrop-blur-md border-b border-gray-100 fixed top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <div class="p-2 bg-indigo-600 rounded-xl text-white shadow-md shadow-indigo-100">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                    </div>
-                    <span class="font-black text-lg tracking-tight text-gray-900">e-<span class="text-indigo-600">Perpus</span></span>
+                <div class="flex items-center shrink-0">
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
+                        <img src="{{ asset('images/logo-sekolah.png') }}" class="h-9 w-auto" alt="Logo Sekolah" onerror="this.style.display='none'">
+                        <span class="font-bold text-lg text-gray-800">| e-library</span>
+                    </a>
                 </div>
 
                 <nav class="flex items-center gap-3">
@@ -45,9 +45,9 @@
         <main class="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
             <div class="max-w-4xl mx-auto px-4 py-12 text-center space-y-8 relative z-10">
                 
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded-full border border-indigo-100/50">
+                {{-- <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded-full border border-indigo-100/50">
                     🚀 Platform Perpustakaan Digital Sekolah Modern
-                </span>
+                </span> --}}
 
                 <h1 class="text-4xl sm:text-6xl font-black text-gray-900 tracking-tight leading-tight sm:leading-none">
                     Membuka Jendela Dunia <br class="hidden sm:inline" />
@@ -98,10 +98,19 @@
                                 <p class="text-xs font-medium text-gray-400 mt-1">Siswa Aktif Hari Ini</p>
                             </div>
                         </div>
-
                     </div>
                 </div>
-
+                <div class="flex items-center justify-center gap-4 pt-2">
+                    @auth
+                        <a href="{{ url('/dashboard') }}" class="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold rounded-xl shadow-lg shadow-indigo-200 transition duration-150">
+                            Masuk ke Dashboard Utama →
+                        </a>
+                    @else
+                        <a href="{{ route('admin.login') }}" class="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold rounded-xl shadow-lg shadow-indigo-200 transition duration-150">
+                            Masuk sebagai Admin
+                        </a>
+                    @endauth
+                </div>
             </div>
         </main>
 

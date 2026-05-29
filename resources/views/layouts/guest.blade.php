@@ -26,5 +26,32 @@
                 {{ $slot }}
             </div>
         </div>
+
+    <script>
+        function togglePassword(inputId, iconId) {
+            const passwordInput = document.getElementById(inputId);
+            const iconSvg = document.getElementById(iconId);
+            
+            // Ambil elemen path mata terbuka dan mata dicoret
+            const openPaths = iconSvg.querySelectorAll('.eye-open');
+            const slashPath = iconSvg.querySelector('.eye-slash');
+
+            if (passwordInput.type === 'password') {
+                // Ubah jadi teks biasa agar kelihatan
+                passwordInput.type = 'text';
+                
+                // Sembunyikan mata terbuka, tunjukkan mata dicoret
+                openPaths.forEach(p => p.classList.add('hidden'));
+                slashPath.classList.remove('hidden');
+            } else {
+                // Kembalikan jadi password tersembunyi
+                passwordInput.type = 'password';
+                
+                // Tunjukkan mata terbuka, sembunyikan mata dicoret
+                openPaths.forEach(p => p.classList.remove('hidden'));
+                slashPath.classList.add('hidden');
+            }
+        }
+    </script>
     </body>
 </html>
