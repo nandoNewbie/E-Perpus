@@ -15,7 +15,7 @@ class DashboardController extends Controller
 {
     // 1. Mengambil query pencarian dan filter dari URL
     $search = $request->input('search');
-    $ddcFilter = $request->input('ddc');
+    $categoryFilter = $request->input('category');
 
     $query = Book::query();
 
@@ -23,21 +23,26 @@ class DashboardController extends Controller
     if ($search) {
         $query->where(function($q) use ($search) {
             $q->where('title', 'LIKE', "%{$search}%")
-            ->orWhere('author', 'LIKE', "%{$search}%")
-            ->orWhere('isbn', 'LIKE', "%{$search}%");
+            ->orWhere('author', 'LIKE', "%{$search}%");
         });
     }
 
-    // 3. Logic Filter DDC
-    if ($ddcFilter) {
-        $query->where('ddc', $ddcFilter);
+    // 3. Logic Filter Kategori
+    if ($categoryFilter) {
+        $query->where('category', $categoryFilter);
     }
 
-    // 4. Ambil data buku terbaru & list DDC unik
+    // 4. Ambil data buku terbaru & list Kategori unik untuk di dropdown filter
     $books = $query->latest()->get();
-    $categories = Book::pluck('ddc')->unique()->filter()->values();
+    $categories = Book::select('category')
+                        ->whereNotNull('category')
+                        ->groupBy('category')
+                        ->pluck('category');
 
-    // 5. Lempar ke file view baru bernama 'books.index'
+    // 5. Pagination (10 buku per halaman) dengan mempertahankan query string agar pencarian & filter tetap aktif saat pindah halaman
+    $books = $query->latest()->get();
+
+    // 6. Lempar ke file view baru bernama 'books.index'
     return view('books.index', compact('books', 'categories'));
 }
 

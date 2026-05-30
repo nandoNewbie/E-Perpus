@@ -14,6 +14,10 @@ class BooksImport implements ToModel, WithHeadingRow
         if (empty($row['judul_buku'])) {
             return null;
         }
+
+        // Ambil teks dari kolom 'Kategori' di Excel, jika kosong beri default 'Umum'
+        $namaKategori = isset($row['kategori']) ? trim($row['kategori']) : 'Umum';
+
         return new Book([
             // 'kolom_database' => $row['nama_header_di_excel_kamu']
             'title'           => $row['judul_buku'],
@@ -26,7 +30,7 @@ class BooksImport implements ToModel, WithHeadingRow
             'language'        => $row['bahasa'],
             'isbn'            => $row['isbn_issn'],
             'description'     => $row['deskripsi'],
-            'category'        => 'Umum',
+            'category'        => $row['kategori'] ?? 'Umum', // Jika kategori kosong, isi dengan 'Umum'
             'ddc'             => $row['ddc'],
             'cover'           => null, 
         ]);

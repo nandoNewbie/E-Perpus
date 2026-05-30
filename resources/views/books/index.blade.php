@@ -25,11 +25,11 @@
                     </div>
 
                     <div class="w-full md:w-64">
-                        <select name="ddc" onchange="this.form.submit()" class="w-full py-3 px-4 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50/50">
-                            <option value="">Semua Klasifikasi DDC</option>
-                            @foreach($categories as $ddc)
-                                <option value="{{ $ddc }}" {{ request('ddc') == $ddc ? 'selected' : '' }}>
-                                    DDC {{ $ddc }}
+                        <select name="category" onchange="this.form.submit()" class="w-full py-3 px-4 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50/50">
+                            <option value="">Semua Kategori</option>
+                            @foreach($categories as $cat)
+                                <option value="{{ $cat }}" {{ request('category') == $cat ? 'selected' : '' }}>
+                                    {{ $cat }}
                                 </option>
                             @endforeach
                         </select>
@@ -39,7 +39,7 @@
                         <button type="submit" class="w-full md:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-xl transition duration-150 shadow-sm">
                             Cari
                         </button>
-                        @if(request('search') || request('ddc'))
+                        @if(request('search') || request('category'))
                             <a href="{{ route('books.index') }}" class="px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-600 text-sm font-medium rounded-xl transition text-center">
                                 Reset
                             </a>
@@ -57,7 +57,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                         </svg>
                         <h3 class="text-lg font-semibold text-gray-900 mb-1">Buku Tidak Ditemukan</h3>
-                        <p class="text-sm text-gray-500">Coba cari dengan kata kunci lain atau reset filter DDC.</p>
+                        <p class="text-sm text-gray-500">Coba cari dengan kata kunci lain atau reset filter Kategori.</p>
                     </div>
                 @else
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
@@ -72,8 +72,9 @@
                                     <svg class="w-12 h-12 text-gray-300 group-hover:text-indigo-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                                     </svg>
-                                    <span class="absolute top-3 left-3 text-[10px] font-bold tracking-wider px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-md border border-indigo-100 shadow-sm">
-                                        DDC {{ $book->ddc }}
+                                    
+                                    <span class="absolute top-3 left-3 text-[10px] font-bold tracking-wider px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-md border border-indigo-100 shadow-sm capitalize">
+                                        {{ $book->category ?? 'Umum' }}
                                     </span>
                                 </div>
 
