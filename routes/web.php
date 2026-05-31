@@ -7,6 +7,7 @@ use App\Imports\BooksImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WelcomeController;
+use App\Livewire\Admin\Dashboard as AdminDashboard;
 
 Route::get('/', WelcomeController::class)->name('welcome');
 
@@ -59,6 +60,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/riwayat-peminjaman', [DashboardController::class, 'riwayat'])->name('books.riwayat');
     Route::view('/faq', 'faq')->name('faq');
+});
+
+Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
+    // URL: /admin/dashboard
+    Route::get('/dashboard', AdminDashboard::class)->name('admin.dashboard');
 });
 
 

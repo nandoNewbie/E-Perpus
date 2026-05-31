@@ -30,7 +30,7 @@
                         <span class="mt-4 text-xs font-medium text-gray-400 italic">Sampul Belum Tersedia</span>
                         
                         <span class="absolute top-4 left-4 text-[11px] font-bold tracking-wider px-3 py-1 bg-indigo-50 text-indigo-700 rounded-lg border border-indigo-100">
-                            Klasifikasi DDC {{ $book->ddc }}
+                            {{ $book->category ?? 'Umum' }}
                         </span>
                     </div>
                 </div>

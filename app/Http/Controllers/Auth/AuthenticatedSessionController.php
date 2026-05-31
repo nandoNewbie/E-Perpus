@@ -81,7 +81,13 @@ public function storeAdmin(LoginRequest $request)
         ]);
     }
 
-    return redirect()->intended(route('dashboard', absolute: false));
+    session([
+        'admin_logged_in' => true,
+        'admin_name'      => Auth::user()->name,
+        'admin_email'     => Auth::user()->email,
+    ]);
+
+    return redirect()->route('admin.dashboard');
 }
 }
 
