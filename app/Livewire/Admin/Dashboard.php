@@ -3,34 +3,41 @@
 namespace App\Livewire\Admin;
 
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 use App\Models\Book;
 use App\Models\Borrowing;
 use App\Models\User;
 
+#[Layout('layouts.admin-layout')]
 class Dashboard extends Component
 {
-    protected $layout = 'layouts.admin-layout';
+#[Layout('layouts.admin-layout')]
+public function render()
+{
+    // Mengambil data peminjaman yang dikelompokkan per bulan untuk tahun ini (2026)
+    $peminjamanPerBulan = Borrowing::selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
+        ->whereYear('created_at', date('Y'))
+        ->groupBy('bulan')
+        ->pluck('total', 'bulan')
+        ->toArray();
 
-    public function render()
-    {
-        $totalBuku = Book::sum('stock'); 
-        $bukuDipinjam = Borrowing::count('id');
-        $totalAnggota = User::where('role', 'siswa')->count(); 
-        $totalKeterlambatan = 0; // Set dummy dulu
-
-        // 2. Siapkan data untuk grafik Chart.js
-        $dataGrafik = [
-            'labels' => ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-            'jumlah' => [12, 19, 3, 5, 2, 3, 15, 20, 30, 45, 35, 60]
-        ];
-
-        // HANYA ADA SATU RETURN DI PALING BAWAH METHOD
-        return view('livewire.admin.dashboard', [
-            'totalBuku' => $totalBuku,
-            'bukuDipinjam' => $bukuDipinjam,
-            'totalAnggota' => $totalAnggota,
-            'totalKeterlambatan' => $totalKeterlambatan,
-            'dataGrafik' => $dataGrafik
-        ])->layout('layouts.admin-layout');
+    // Menyiapkan array 12 bulan dengan nilai default 0
+    $dataBulanan = [];
+    for ($i = 1; $i <= 12; $i++) {
+        $dataBulanan[] = $peminjamanPerBulan[$i] ?? 0;
     }
+
+    return view('livewire.admin.dashboard', [
+        'totalBuku' => Book::sum('stock'),
+        'bukuDipinjam' => Borrowing::where('status', 'dipinjam')->count(),
+        'totalAnggota' => User::where('role', 'siswa')->count(),
+        'totalKeterlambatan' => Borrowing::where('status', 'dipinjam')
+                                            ->where('due_date', '<', date('Y-m-d'))
+                                            ->count(),
+        'dataGrafik' => [
+            'labels' => ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+            'jumlah' => $dataBulanan // Data riil dari database
+        ]
+    ]);
+}
 }

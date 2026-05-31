@@ -60,7 +60,7 @@ class AuthenticatedSessionController extends Controller
     // Menampilkan halaman login khusus Pustakawan
 public function createAdmin()
 {
-    return view('auth.admin-login');
+    return view('admin.login');
 }
 
 // Memproses data login Pustakawan
@@ -77,7 +77,7 @@ public function storeAdmin(LoginRequest $request)
         $request->session()->regenerateToken();
         
         return redirect()->route('admin.login')->withErrors([
-            'login_key' => 'Akses ditolak. Anda bukan Pustakawan!'
+            'email' => 'Akses ditolak. Anda bukan Pustakawan!'
         ]);
     }
 
@@ -90,4 +90,3 @@ public function storeAdmin(LoginRequest $request)
     return redirect()->route('admin.dashboard');
 }
 }
-

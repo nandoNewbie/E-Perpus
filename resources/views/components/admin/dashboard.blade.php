@@ -70,7 +70,46 @@ new class extends Component
     </div>
 </div>
 
-@push('scripts')
+<div x-data="{
+    init() {
+        const ctx = document.getElementById('borrowingChart');
+        if (!ctx) return;
+
+        if (window.myChart) {
+            window.myChart.destroy();
+        }
+
+        window.myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: @json($dataGrafik['labels'] ?? []),
+                datasets: [{
+                    label: 'Jumlah Buku Dipinjam',
+                    data: @json($dataGrafik['jumlah'] ?? []),
+                    borderColor: '#4f46e5',
+                    backgroundColor: 'rgba(79, 70, 229, 0.05)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.3,
+                    pointBackgroundColor: '#4f46e5',
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f3f4f6' } },
+                    x: { grid: { display: false } }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+    }
+}">
+</div>
+
+{{-- @push('scripts')
 <script>
     document.addEventListener('livewire:navigated', () => {
         const ctx = document.getElementById('borrowingChart');
@@ -125,4 +164,4 @@ new class extends Component
         });
     });
 </script>
-@endpush
+@endpush --}}

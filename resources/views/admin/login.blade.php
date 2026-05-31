@@ -8,8 +8,8 @@
         <!-- Login Key -->
         <!-- Input Email untuk Pustakawan -->
         <div>
-            <x-input-label for="login_key" :value="__('Email Pustakawan')" />
-            <x-text-input id="login_key" class="block mt-1 w-full" type="text" name="login_key" :value="old('login_key')" required autofocus autocomplete="username" />
+            <x-input-label for="email" :value="__('Email Pustakawan')" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="login_key" :value="old('login_key')" required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('login_key')" class="mt-2" />
         </div>
 

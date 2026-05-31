@@ -2,18 +2,25 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\AdminAuthController;
 use Illuminate\Support\Facades\Auth;
 use App\Imports\BooksImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WelcomeController;
-use App\Livewire\Admin\Dashboard as AdminDashboard;
+use App\Livewire\Admin\Dashboard;
 
 Route::get('/', WelcomeController::class)->name('welcome');
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+// Login User Biasa (Siswa/Guru)
+Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+
+// Login Admin/Pustakawan
+Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
+Route::post('/admin/login', [AdminAuthController::class, 'login']);
+
 
 Route::get('/import-buku', function () {
     Excel::import(new BooksImport, storage_path('app/data_buku.xlsx'));
@@ -21,25 +28,13 @@ Route::get('/import-buku', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    // Rute dashboard untuk non-admin (siswa/guru)
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    Route::get('/dashboard', function () {
-        // Jika yang login Pustakawan, arahkan ke rute khusus pustakawan
-        if (Auth::user()->role === 'pustakawan') {
-            return redirect()->route('pustakawan.dashboard');
-        }
-        // Jika siswa/guru, Panggil fungsi 'index' di DashboardController
-        return app(DashboardController::class)->index();
-    })->name('dashboard');
-
-    // 2. KAMAR KHUSUS PUSTAKAWAN (DIKUNCI SATPAM ROLE)
-    Route::middleware(['role:pustakawan'])->prefix('pustakawan')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('pustakawan.dashboard'); // Nanti kita buat file view-nya
-        })->name('pustakawan.dashboard');
-        
-        // Nanti rute manajemen buku, verifikasi denda dll akan ditulis di bawah sini
+    // Rute khusus admin/pustakawan
+    Route::middleware(['role:pustakawan'])->prefix('admin')->group(function () {
+        Route::get('/dashboard', Dashboard::class)->name('admin.dashboard');
     });
-
 });
 
 Route::middleware('auth')->group(function () {
@@ -62,11 +57,10 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/faq', 'faq')->name('faq');
 });
 
+// Rute Dashboard Admin (DIBUNGKUS middleware)
 Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
-    // URL: /admin/dashboard
-    Route::get('/dashboard', AdminDashboard::class)->name('admin.dashboard');
+    Route::get('/dashboard', Dashboard::class)->name('admin.dashboard');
 });
-
 
 
 require __DIR__.'/auth.php';
