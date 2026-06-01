@@ -11,6 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WelcomeController;
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\BookManagement;
+use App\Livewire\Admin\BorrowingManagement;
 
 Route::get('/', WelcomeController::class)->name('welcome');
 
@@ -48,6 +49,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/daftar-buku', [DashboardController::class, 'katalog'])->name('books.index');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/daftar-buku', [DashboardController::class, 'katalog'])->name('books.index');
     // Rute detail buku
     Route::get('/daftar-buku/{id}', [DashboardController::class, 'show'])->name('books.show');
     
@@ -63,6 +65,7 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('admin.dashboard');
     Route::get('/buku', BookManagement::class)->name('admin.books');
     Route::get('/admin/users', UserManagement::class)->name('admin.users');
+    Route::get('/peminjaman', BorrowingManagement::class)->name('admin.borrowings');
 });
 
 

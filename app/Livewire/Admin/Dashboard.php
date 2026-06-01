@@ -29,9 +29,9 @@ public function render()
 
     return view('livewire.admin.dashboard', [
         'totalBuku' => Book::sum('stock'),
-        'bukuDipinjam' => Borrowing::where('status', 'dipinjam')->count(),
+        'bukuDipinjam' => Borrowing::where('status', 'Diterima')->count(),
         'totalAnggota' => User::where('role', 'siswa')->count(),
-        'totalKeterlambatan' => Borrowing::where('status', 'dipinjam')
+        'totalKeterlambatan' => Borrowing::where('status', 'Diterima')
                                             ->where('due_date', '<', date('Y-m-d'))
                                             ->count(),
         'dataGrafik' => [
