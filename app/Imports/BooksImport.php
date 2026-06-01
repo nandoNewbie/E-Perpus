@@ -4,9 +4,10 @@ namespace App\Imports;
 
 use App\Models\Book;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithHeadingRow; // Gunakan ini jika baris pertama Excel adalah Judul Kolom
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithUpserts;
 
-class BooksImport implements ToModel, WithHeadingRow
+class BooksImport implements ToModel, WithHeadingRow, WithUpserts
 {
     public function model(array $row)
     {
@@ -15,11 +16,7 @@ class BooksImport implements ToModel, WithHeadingRow
             return null;
         }
 
-        // Ambil teks dari kolom 'Kategori' di Excel, jika kosong beri default 'Umum'
-        $namaKategori = isset($row['kategori']) ? trim($row['kategori']) : 'Umum';
-
         return new Book([
-            // 'kolom_database' => $row['nama_header_di_excel_kamu']
             'title'           => $row['judul_buku'],
             'author'          => $row['penulis'],
             'publisher'       => $row['penerbit'],
@@ -30,9 +27,13 @@ class BooksImport implements ToModel, WithHeadingRow
             'language'        => $row['bahasa'],
             'isbn'            => $row['isbn_issn'],
             'description'     => $row['deskripsi'],
-            'category'        => $row['kategori'] ?? 'Umum', // Jika kategori kosong, isi dengan 'Umum'
+            'category'        => $row['kategori'] ?? 'Umum',
             'ddc'             => $row['ddc'],
             'cover'           => null, 
         ]);
+    }
+    public function uniqueBy()
+    {
+        return ['title', 'author']; // Gunakan kolom 'title' dan 'author' sebagai acuan untuk update jika data sudah ada
     }
 }

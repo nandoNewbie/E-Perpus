@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WelcomeController;
 use App\Livewire\Admin\Dashboard;
+use App\Livewire\Admin\BookManagement;
 
 Route::get('/', WelcomeController::class)->name('welcome');
 
@@ -60,7 +61,10 @@ Route::middleware(['auth'])->group(function () {
 // Rute Dashboard Admin (DIBUNGKUS middleware)
 Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('admin.dashboard');
+    Route::get('/buku', BookManagement::class)->name('admin.books');
 });
+
+
 
 
 require __DIR__.'/auth.php';
