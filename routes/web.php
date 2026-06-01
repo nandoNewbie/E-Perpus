@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\AdminAuthController;
-use Illuminate\Support\Facades\Auth;
+use App\Livewire\Admin\UserManagement;
 use App\Imports\BooksImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\DashboardController;
@@ -62,9 +62,8 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('admin.dashboard');
     Route::get('/buku', BookManagement::class)->name('admin.books');
+    Route::get('/admin/users', UserManagement::class)->name('admin.users');
 });
-
-
 
 
 require __DIR__.'/auth.php';
