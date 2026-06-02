@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @livewireStyles
 </head>
-<body class="bg-gray-50 font-sans antialiased" x-data="{ sidebarOpen: false }">
+<body class="bg-slate-900 font-sans antialiased" x-data="{ sidebarOpen: false }">
 
     <div class="flex min-h-screen">
         
@@ -42,6 +42,10 @@
                     <a href="{{ route('admin.borrowings') }}" @click="sidebarOpen = false" class="flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-xl transition hover:bg-slate-800 hover:text-white">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         Peminjaman Buku
+                    </a>
+                    <a href="{{ route('admin.returns') }}" @click="sidebarOpen = false" class="flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-xl transition hover:bg-slate-800 hover:text-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        Pengembalian Buku
                     </a>
                 </nav>
             </div>

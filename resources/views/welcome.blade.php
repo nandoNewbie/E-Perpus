@@ -29,7 +29,7 @@
                             Dashboard
                         </a>
                     @else
-                        <a href="{{ route('login') }}" class="px-4 py-2 text-gray-600 hover:text-indigo-600 text-xs font-bold transition duration-150">
+                        <a href="{{ route('login') }}" class="px-4 py-2 bg-gray-900 hover:bg-indigo-600 text-white text-xs font-bold rounded-xl shadow-sm transition duration-150">
                             Masuk
                         </a>
                         @if (Route::has('register'))

@@ -11,6 +11,7 @@ class BookImportController extends Controller
 {
     public function import(Request $request)
     {
+        set_time_limit(0);
         $request->validate([
             'file_buku' => 'required|mimes:xlsx,xls,csv|max:10240',
         ]);

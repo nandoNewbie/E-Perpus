@@ -1,6 +1,6 @@
 <div>
     <div class="mb-8">
-        <h2 class="text-2xl font-black text-gray-800 tracking-tight">Ringkasan Perpustakaan</h2>
+        <h2 class="text-2xl font-black text-white tracking-tight">Ringkasan Perpustakaan</h2>
         <p class="text-sm text-gray-500 mt-1">Selamat datang kembali, Pustakawan! Berikut adalah statistik per hari ini.</p>
     </div>
 

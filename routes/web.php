@@ -12,6 +12,7 @@ use App\Http\Controllers\WelcomeController;
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\BookManagement;
 use App\Livewire\Admin\BorrowingManagement;
+use App\Livewire\Admin\ReturnManagement;
 
 Route::get('/', WelcomeController::class)->name('welcome');
 
@@ -66,6 +67,7 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
     Route::get('/buku', BookManagement::class)->name('admin.books');
     Route::get('/admin/users', UserManagement::class)->name('admin.users');
     Route::get('/peminjaman', BorrowingManagement::class)->name('admin.borrowings');
+    Route::get('/pengembalian', ReturnManagement::class)->name('admin.returns');
 });
 
 
