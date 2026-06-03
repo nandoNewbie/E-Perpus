@@ -12,7 +12,7 @@
                 </a>
             </div>
 
-            <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+            <div class="bg-white p-6 rounded-2xl border border-indigo-200 shadow-sm">
                 <form action="{{ route('books.index') }}" method="GET" class="flex flex-col md:flex-row gap-4 items-center justify-between">
                     
                     <div class="relative w-full md:flex-1">
@@ -52,7 +52,7 @@
             <div x-data="{ limit: 10, total: {{ $books->count() }} }" class="space-y-8">
                 
                 @if($books->isEmpty())
-                    <div class="bg-white rounded-2xl border border-gray-100 p-12 text-center shadow-sm">
+                    <div class="bg-white rounded-2xl border border-indigo-200 p-12 text-center shadow-sm">
                         <svg class="mx-auto h-12 w-12 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                         </svg>
@@ -66,9 +66,9 @@
                                 x-transition:enter="transition ease-out duration-300"
                                 x-transition:enter-start="opacity-0 scale-95"
                                 x-transition:enter-end="opacity-100 scale-100"
-                                class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-all duration-200 flex flex-col h-full group relative">
+                                class="bg-white rounded-2xl border border-indigo-200 shadow-sm overflow-hidden hover:shadow-md transition-all duration-200 flex flex-col h-full group relative">
                                 
-                                <div class="w-full h-48 bg-gradient-to-br from-gray-50 to-indigo-50/30 flex items-center justify-center border-b border-gray-50 shrink-0 relative">
+                                <div class="w-full h-48 bg-gradient-to-br from-gray-50 to-indigo-50/30 flex items-center justify-center border-b border-indigo-200 shrink-0 relative">
                                     <svg class="w-12 h-12 text-gray-300 group-hover:text-indigo-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                                     </svg>

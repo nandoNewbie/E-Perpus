@@ -2,7 +2,7 @@
     <div class="py-12 bg-gray-50 min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-2xl border border-gray-100">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-2xl border border-indigo-300">
                 <div class="p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8 bg-gradient-to-r from-indigo-50 via-white to-white">
                     
                     <div class="space-y-4 max-w-2xl text-center md:text-left">
@@ -27,7 +27,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                 </svg>
                             </a>
-                            <a href="{{ route('books.riwayat') }}" class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                            <a href="{{ route('books.riwayat') }}" class="inline-flex items-center px-6 py-3 border border-indigo-200 text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
                                 Lihat Pinjaman Saya
                             </a>
                         </div>
@@ -49,7 +49,7 @@
 
                 <!-- SECTION 1: BUKU PALING SERING DIPINJAM (TERPOPULER) -->
                 <div class="space-y-4">
-                    <div class="flex items-center justify-between border-b border-gray-200 pb-3">
+                    <div class="flex items-center justify-between border-b border-indigo-200 pb-3">
                         <div>
                             <h2 class="text-xl font-black text-gray-900 tracking-tight flex items-center gap-2">
                                 🔥 Buku Terpopuler Bulan Ini
@@ -61,7 +61,7 @@
                     <!-- Grid Kartu Buku Terpopuler -->
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
                         @forelse($popularBooks as $index => $book)
-                            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition duration-200 relative overflow-hidden">
+                            <div class="bg-white rounded-2xl border border-indigo-100 shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition duration-200 relative overflow-hidden">
                                 
                                 <!-- Badge Nomor Peringkat Popularitas -->
                                 <div class="absolute top-0 right-0 bg-amber-500 text-white font-black text-xs px-2.5 py-1 rounded-bl-xl shadow-sm">
@@ -70,8 +70,8 @@
 
                                 <div class="space-y-3">
                                     <!-- Placeholder Sampul -->
-                                    <div class="w-full aspect-[3/4] bg-gradient-to-br from-gray-50 to-amber-50/20 border border-gray-100 rounded-xl flex flex-col items-center justify-center p-3 text-center">
-                                        <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                    <div class="w-full aspect-[3/4] bg-gradient-to-br from-gray-50 to-amber-50/20 border border-indigo-100 rounded-xl flex flex-col items-center justify-center p-3 text-center">
+                                        <svg class="w-10 h-10 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                                     </div>
                                     <div>
                                         <h3 class="font-bold text-gray-800 text-xs line-clamp-2 leading-snug min-h-[32px]">{{ $book->title }}</h3>
@@ -84,7 +84,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-3">
-                                    <a href="{{ route('books.show', $book->id) }}" class="block text-center w-full py-1.5 bg-gray-50 hover:bg-amber-500 border border-gray-100 text-gray-600 hover:text-white text-[11px] font-bold rounded-lg transition">
+                                    <a href="{{ route('books.show', $book->id) }}" class="block text-center w-full py-1.5 bg-gray-50 hover:bg-amber-500 border border-indigo-100 text-gray-600 hover:text-white text-[11px] font-bold rounded-lg transition">
                                         Detail Buku
                                     </a>
                                 </div>
@@ -112,10 +112,10 @@
                 <!-- Grid Kartu Buku Terbaru -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
                     @forelse($latestBooks as $book)
-                        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition duration-200">
+                        <div class="bg-white rounded-2xl border border-indigo-200 shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition duration-200">
                             <div class="space-y-3">
                                 <!-- Placeholder Sampul -->
-                                <div class="w-full aspect-[3/4] bg-gradient-to-br from-gray-50 to-indigo-50/30 border border-gray-100 rounded-xl flex flex-col items-center justify-center p-3 text-center relative">
+                                <div class="w-full aspect-[3/4] bg-gradient-to-br from-gray-50 to-indigo-50/30 border border-indigo-100 rounded-xl flex flex-col items-center justify-center p-3 text-center relative">
                                     <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                                     <span class="absolute top-2 left-2 text-[9px] font-bold px-1.5 py-0.5 bg-indigo-600 text-white rounded-md">BARU</span>
                                 </div>
@@ -125,7 +125,7 @@
                                 </div>
                             </div>
                             <div class="mt-3">
-                                <a href="{{ route('books.show', $book->id) }}" class="block text-center w-full py-1.5 bg-gray-50 hover:bg-indigo-600 border border-gray-100 text-gray-600 hover:text-white text-[11px] font-bold rounded-lg transition">
+                                <a href="{{ route('books.show', $book->id) }}" class="block text-center w-full py-1.5 bg-gray-50 hover:bg-indigo-600 border border-indigo-100 text-gray-600 hover:text-white text-[11px] font-bold rounded-lg transition">
                                     Detail Buku
                                 </a>
                             </div>

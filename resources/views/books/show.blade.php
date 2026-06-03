@@ -82,9 +82,13 @@
                     </div>
 
                     <div class="pt-4 border-t border-gray-100">
-                        @if($book->stock > 0)
+                        @if($book->stock > 0 && strtolower($book->category ?? '') !== 'referensi')
                             <button @click="openModal = true" class="w-full md:w-auto text-center px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm rounded-xl shadow-md hover:shadow-lg transition-all duration-150 focus:outline-none">
                                 Pinjam Buku Ini 📚✨
+                            </button>
+                        @elseif(strtolower($book->category ?? '') === 'referensi')
+                            <button disabled class="w-full md:w-auto text-center px-8 py-3.5 bg-amber-50 text-amber-700 border border-amber-200 font-bold text-sm rounded-xl cursor-not-allowed">
+                                🔒 Buku Referensi Hanya Bisa Dibaca di Perpustakaan!
                             </button>
                         @else
                             <button disabled class="w-full md:w-auto text-center px-8 py-3.5 bg-gray-200 text-gray-400 font-bold text-sm rounded-xl cursor-not-allowed">

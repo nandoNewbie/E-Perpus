@@ -76,6 +76,11 @@ public function pinjam(Request $request, int $id)
         $user = Auth::user();
         $book = Book::findOrFail($id);
 
+        if (strtolower($book->category) === 'referensi') {
+        session()->flash('error', 'Gagal! Buku dengan kategori referensi hanya boleh dibaca di perpustakaan.');
+        return;
+    }
+
         if ($book->stock <= 0) {
             return redirect()->back()->with('error', 'Maaf, stok buku ini sudah habis!');
         }
@@ -105,8 +110,8 @@ public function pinjam(Request $request, int $id)
                 'user_id'     => $user->id,
                 'book_id'     => $book->id,
                 'status'      => 'Pending',
-                'borrow_date' => null,
-                'due_date'    => null,
+                'borrow_date' => $this->borrowDate ?? Carbon::now()->toDateString(),
+                'due_date'    => $this->dueDate ?? Carbon::now()->addDays(7)->toDateString(),
             ]);
         });
 

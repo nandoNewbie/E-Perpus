@@ -45,7 +45,7 @@
                         <svg class="w-5 h-5 text-gray-400 transition-transform duration-200" :class="{ 'transform rotate-180 text-indigo-600': activeFaq === 4 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                     <div x-show="activeFaq === 4" x-collapse class="border-t border-gray-50 bg-gray-50/50 p-6 text-sm text-gray-600 leading-relaxed">
-                        Jika kamu menggunakan email aktif saat registrasi, kamu bisa menekan tombol <span class="italic">Forgot your password?</span> di halaman login untuk mereset password secara otomatis via email. Namun, jika akunmu belum terikat email aktif, silakan hubungi petugas pustakawan di perpustakaan sekolah untuk melakukan reset password manual dari panel admin.
+                        Silakan hubungi petugas pustakawan di perpustakaan sekolah untuk melakukan reset password manual dari panel admin.
                     </div>
                 </div>
 
