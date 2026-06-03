@@ -42,6 +42,63 @@ Aplikasi ini dibangun menggunakan ekosistem modern Laravel bergaya TALL Stack:
 Ikuti langkah-langkah berikut untuk menjalankan proyek E-Perpus di komputer lokal kamu:
 
 ### 1. Clone Repositori
-```bash
+
+'''
 git clone [https://github.com/USERNAME_KAMU/NAMA_REPOSITORI.git](https://github.com/USERNAME_KAMU/NAMA_REPOSITORI.git)
 cd NAMA_REPOSITORI
+
+
+2. Install Dependensi Composer & NPM
+Bash
+composer install
+npm install && npm run dev
+
+4. Konfigurasi Environment File
+Salin file .env.example menjadi .env:
+
+Bash
+cp .env.example .env
+Buka file .env, sesuaikan pengaturan database dan pastikan konfigurasi zona waktu Indonesia Barat (WIB) sudah terpasang:
+
+Cuplikan kode
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nama_database_kamu
+DB_USERNAME=root
+DB_PASSWORD=
+
+APP_TIMEZONE=Asia/Jakarta
+4. Generate Application Key
+Bash
+php artisan key:generate
+
+5. Jalankan Migrasi & Seeder Database
+Bash
+php artisan migrate --seed
+💡 Setelah seeder berhasil dijalankan, kamu bisa login di /admin/login pertama kali menggunakan akun bawaan:
+
+Email: test@example.com
+
+Password: password
+
+6. Jalankan Server Lokal
+Bash
+php artisan serve
+Aplikasi sekarang dapat diakses melalui browser di alamat http://127.0.0.1:8000.
+
+⚠️ Catatan Penting untuk Server (Konfigurasi php.ini)
+Karena aplikasi ini mendukung fitur Import Massal Excel dengan kapasitas file besar (hingga 10MB), pastikan server PHP lokal kamu (XAMPP / Laragon) tidak mengalami timeout atau pembatasan ukuran file.
+
+Silakan buka dan ubah pengaturan file php.ini milikmu menjadi seperti ini:
+
+Ini, TOML
+; Tingkatkan batas waktu eksekusi agar import data banyak tidak timeout
+max_execution_time = 600
+
+; Tingkatkan batas ukuran upload file agar mendukung file Excel 10MB
+upload_max_filesize = 20M
+post_max_size = 25M
+Jangan lupa untuk me-restart Apache/Nginx setelah mengubah file php.ini, lalu jalankan perintah php artisan config:clear pada terminal proyek.
+
+Dibuat dengan 💻 dan ☕ untuk kemajuan literasi SMP N Galas Malang.
