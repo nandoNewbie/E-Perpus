@@ -61,7 +61,7 @@ cd NAMA_REPOSITORI
 composer install
 
 # Install dependensi Frontend (NPM)
-npm install && npm run build
+npm install && npm run dev
 
 ```
 
