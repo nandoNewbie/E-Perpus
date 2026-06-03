@@ -12,7 +12,7 @@
             <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         @endif
     </head>
-    <body class="bg-gray-50 text-gray-900 antialiased font-sans selection:bg-indigo-500 selection:text-white">
+    <body class="bg-gray-100 text-gray-900 antialiased font-sans selection:bg-indigo-500 selection:text-white">
         
         <header class="w-full bg-white/80 backdrop-blur-md border-b border-gray-100 fixed top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -114,7 +114,7 @@
             </div>
         </main>
 
-        <footer class="w-full py-6 border-t border-gray-100 bg-white text-center text-xs text-gray-400 fixed bottom-0 left-0 right-0 z-40">
+        <footer class="w-full py-6 border-t border-gray-100 bg-white text-center text-xs text-gray-400 bottom-0 left-0 right-0 z-40">
             &copy; {{ date('Y') }} {{ config('app.name', 'Laravel') }} Digital. All Rights Reserved.
         </footer>
 

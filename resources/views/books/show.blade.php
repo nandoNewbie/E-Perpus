@@ -24,14 +24,14 @@
                 
                 <div class="md:col-span-4 flex flex-col items-center">
                     <div class="w-full aspect-[3/4] max-w-[260px] bg-gradient-to-br from-gray-100 to-indigo-50/50 border border-gray-200 rounded-2xl shadow-inner flex flex-col items-center justify-center p-6 relative group">
-                        <svg class="w-24 h-24 text-gray-300 group-hover:text-indigo-500 transition duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                        </svg>
-                        <span class="mt-4 text-xs font-medium text-gray-400 italic">Sampul Belum Tersedia</span>
-                        
-                        <span class="absolute top-4 left-4 text-[11px] font-bold tracking-wider px-3 py-1 bg-indigo-50 text-indigo-700 rounded-lg border border-indigo-100">
-                            {{ $book->category ?? 'Umum' }}
-                        </span>
+                        @if($book->cover)
+                            <img src="{{ asset('storage/' . $book->cover) }}" class="w-full h-full object-cover rounded shadow">
+                        @else
+                            <svg class="w-10 h-10 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                            <span class="absolute top-4 left-4 text-[11px] font-bold tracking-wider px-3 py-1 bg-indigo-50 text-indigo-700 rounded-lg border border-indigo-100">
+                                {{ $book->category ?? 'Umum' }}
+                            </span>
+                        @endif
                     </div>
                 </div>
 

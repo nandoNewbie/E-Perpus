@@ -49,7 +49,7 @@
                 </form>
             </div>
 
-            <div x-data="{ limit: 10, total: {{ $books->count() }} }" class="space-y-8">
+            <div x-data="{ limit: 10, total: {{ $books->count() }} }" class="space-y-8 p-3">
                 
                 @if($books->isEmpty())
                     <div class="bg-white rounded-2xl border border-indigo-200 p-12 text-center shadow-sm">
@@ -69,9 +69,11 @@
                                 class="bg-white rounded-2xl border border-indigo-200 shadow-sm overflow-hidden hover:shadow-md transition-all duration-200 flex flex-col h-full group relative">
                                 
                                 <div class="w-full h-48 bg-gradient-to-br from-gray-50 to-indigo-50/30 flex items-center justify-center border-b border-indigo-200 shrink-0 relative">
-                                    <svg class="w-12 h-12 text-gray-300 group-hover:text-indigo-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                                    </svg>
+                                    @if($book->cover)
+                                        <img src="{{ asset('storage/' . $book->cover) }}" class="w-full h-full object-cover rounded shadow">
+                                    @else
+                                        <svg class="w-10 h-10 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                    @endif
                                     
                                     <span class="absolute top-3 left-3 text-[10px] font-bold tracking-wider px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-md border border-indigo-100 shadow-sm capitalize">
                                         {{ $book->category ?? 'Umum' }}

@@ -15,7 +15,8 @@
                         <svg class="w-5 h-5 text-gray-400 transition-transform duration-200" :class="{ 'transform rotate-180 text-indigo-600': activeFaq === 1 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                     <div x-show="activeFaq === 1" x-collapse class="border-t border-gray-50 bg-gray-50/50 p-6 text-sm text-gray-600 leading-relaxed">
-                        Caranya sangat mudah! Cari buku yang kamu inginkan di menu <span class="font-semibold text-indigo-600">Daftar Buku</span>, klik tombol <span class="font-semibold">Lihat Detail</span>, lalu tekan <span class="font-semibold">Pinjam Buku Ini</span>. Setelah kamu melakukan konfirmasi pada pop-up, status peminjamanmu akan tercatat sebagai <span class="italic font-medium">Pending</span>. Kamu tinggal datang ke ruang perpustakaan fisik untuk mengambil bukunya setelah disetujui oleh pustakawan.
+                        Untuk meminjam buku, cukup masuk ke katalog buku, pilih buku yang kamu inginkan, lalu klik tombol "Pinjam". Ikuti instruksi selanjutnya untuk menyelesaikan proses peminjaman. 
+                        Setelah permintaanmu disetujui oleh pustakawan, kamu bisa mengambil buku fisiknya di perpustakaan sekolah. Pastikan untuk mematuhi aturan peminjaman dan mengembalikan buku tepat waktu ya!
                     </div>
                 </div>
 
@@ -35,7 +36,7 @@
                         <svg class="w-5 h-5 text-gray-400 transition-transform duration-200" :class="{ 'transform rotate-180 text-indigo-600': activeFaq === 3 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                     <div x-show="activeFaq === 3" x-collapse class="border-t border-gray-50 bg-gray-50/50 p-6 text-sm text-gray-600 leading-relaxed">
-                        Kamu bisa mendaftarkan akunmu secara mandiri melalui tombol <span class="font-semibold">Register</span> di halaman awal aplikasi menggunakan NISN atau email aktif sekolah. Pastikan mengisi data dengan benar agar pustakawan dapat memverifikasi identitasmu saat proses peminjaman buku fisik.
+                        Akun e-Perpus hanya diberikan kepada siswa dan staf sekolah yang terdaftar. Siswa akan mendapatkan akun secara otomatis menggunakan NIS/Nomor Induk, sementara guru/staf akan didaftarkan oleh admin menggunakan NIP. Jika kamu belum memiliki akun, silakan hubungi guru atau pustakawan untuk proses pendaftaran.
                     </div>
                 </div>
 
@@ -70,7 +71,7 @@
                         <svg class="w-5 h-5 text-gray-400 transition-transform duration-200" :class="{ 'transform rotate-180 text-indigo-600': activeFaq === 6 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                     <div x-show="activeFaq === 6" x-collapse class="border-t border-gray-50 bg-gray-50/50 p-6 text-sm text-gray-600 leading-relaxed">
-                        Durasi maksimal peminjaman buku standar adalah <span class="font-bold text-indigo-600">7 Hari (1 Minggu)</span> sejak permintaan disetujui oleh pustakawan. Jika kamu butuh waktu lebih lama, kamu wajib membawa buku tersebut ke perpustakaan untuk mengajukan perpanjangan durasi pinjam ke petugas.
+                        Durasi maksimal peminjaman buku standar adalah <span class="font-bold text-indigo-600">7 Hari (1 Minggu)</span> sejak permintaan disetujui oleh pustakawan. Jika kamu butuh waktu lebih lama, kamu bisa mengajukan perpanjangan durasi pinjam di halaman <span class="font-bold text-indigo-600">Riwayat Peminjaman</span> sebelum tanggal jatuh tempo. Pustakawan akan meninjau permintaan perpanjanganmu berdasarkan kondisi buku dan riwayat peminjamanmu sebelumnya.
                     </div>
                 </div>
 

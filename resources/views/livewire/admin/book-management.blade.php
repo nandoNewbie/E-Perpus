@@ -1,4 +1,4 @@
-<div class="p-6 bg-slate-900 min-h-screen text-slate-100">
+<div class="p-0.5 bg-slate-900 min-h-screen text-slate-100">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div>
             <h1 class="text-2xl font-bold text-white">Manajemen Koleksi Buku</h1>
@@ -7,7 +7,7 @@
         <div class="flex gap-2 w-full md:w-auto">
             <button wire:click="create" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-1">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                Tambah Buku+
+                Tambah Buku
             </button>
             <button wire:click="openImportModal" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-1">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

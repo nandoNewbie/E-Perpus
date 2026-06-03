@@ -1,4 +1,4 @@
-<div class="p-6 bg-slate-900 min-h-screen text-slate-100">
+<div class="p-0.5 bg-slate-900 min-h-screen text-slate-100">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div>
             <h1 class="text-2xl font-bold text-white">Manajemen Data Anggota</h1>

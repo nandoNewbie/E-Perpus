@@ -1,4 +1,4 @@
-<div class="p-6 bg-slate-900 min-h-screen text-slate-100">
+<div class="p-0.5 bg-slate-900 min-h-screen text-slate-100">
     <div class="mb-6">
         <h1 class="text-2xl font-bold text-white">Manajemen Peminjaman Buku</h1>
         <p class="text-slate-400 text-sm">Validasi pengajuan peminjaman baru dan perpanjangan jatuh tempo siswa.</p>

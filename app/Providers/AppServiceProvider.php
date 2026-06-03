@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Login;     
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,5 +29,9 @@ class AppServiceProvider extends ServiceProvider
                 'last_login_at' => now()
             ]);
         });
+        // Jika diakses lewat ngrok, paksa skema URL menggunakan HTTPS publik
+        if (str_contains(request()->url(), 'ngrok-free.app')) {
+            URL::forceScheme('https');
+    }
     }
 }
