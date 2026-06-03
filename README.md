@@ -1,58 +1,149 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# E-Perpus SMP N Galas Malang 📚✨
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[![Laravel Version](https://img.shields.io/badge/Laravel-11.x-red.svg)](https://laravel.com)
+[![PHP Version](https://img.shields.io/badge/PHP-8.4-777BB4.svg)](https://www.php.net/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-## About Laravel
+**E-Perpus SMP N Galas Malang** adalah sistem informasi manajemen perpustakaan berbasis web yang dirancang khusus untuk mempermudah pengelolaan sirkulasi buku, manajemen anggota, serta proses peminjaman dan pengembalian secara efisien, responsif, dan *real-time*.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Fitur Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* **👥 Sistem Multi-Role (RBAC)**
+  * **Admin/Pustakawan:** Akses penuh untuk mengelola data master buku, mengimpor data anggota, memvalidasi sirkulasi, dan mengatur denda siswa.
+  * **Siswa/Member:** Menjelajahi katalog, melihat rekomendasi pintar, mengajukan peminjaman, dan mengubah password akun secara mandiri.
+* **📖 Manajemen Buku & Anggota Terpusat**
+  * *Import/Upsert Massal* data buku langsung dari file Excel/CSV hingga kapasitas 10MB untuk efisiensi input data awal.
+  * Jalur registrasi publik ditutup demi keamanan; akun siswa dibuat terpusat oleh Admin dengan password default `password123`.
+* **⚡ Sirkulasi Real-Time (Powered by Livewire)**
+  * Transaksi peminjaman dan pengembalian diproses instan tanpa muat ulang halaman (*zero reload*).
+  * **Proteksi Buku Referensi:** Buku berkategori 'Referensi' otomatis terkunci oleh sistem (Hanya Baca di Tempat) dan tombol pinjam dihilangkan.
+* **💰 Kalkulator Denda Otomatis**
+  * Menghitung keterlambatan otomatis berdasarkan tanggal jatuh tempo yang presisi menggunakan zona waktu **WIB (Asia/Jakarta)**.
+  * Pelacakan log sirkulasi denda menggunakan status dinamis: `none` (tepat waktu), `Belum Lunas`, dan `Lunas`.
+* **🎯 Sistem Rekomendasi Buku Pintar**
+  * Dashboard beranda memisahkan secara dinamis antara **Buku Terbaru** (arsip terbaru) dan **Buku Populer** (paling sering dipinjam).
+* **🔒 Keamanan Akun**
+  * Fitur interaktif *Show/Hide Password* menggunakan Alpine.js pada form pembaruan password untuk memudahkan siswa memantau ketikan mereka.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🛠️ Tech Stack
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Aplikasi ini dibangun menggunakan ekosistem komponen modern berikut:
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+| Komponen | Teknologi | Keterangan |
+| :--- | :--- | :--- |
+| **Backend Framework** | Laravel 11.x | Core system & routing |
+| **Runtime Environment**| PHP 8.4 | Versi PHP terbaru |
+| **Database** | MySQL | Penyimpanan data relasional |
+| **Reactivity Layer** | Livewire 3 & Alpine.js | Proses asinkronous & komponen interaktif |
+| **CSS Framework** | Tailwind CSS | Desain antarmuka responsif |
+| **Library Pendukung** | Maatwebsite/Laravel-Excel | Handler import data massal |
 
-## Agentic Development
+---
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## ⚙️ Panduan Instalasi Lokal
 
+Ikuti langkah-langkah di bawah ini untuk memasang dan menjalankan proyek di lingkungan *development* kamu:
+
+### 1. Persiapan Repositori & Dependensi
+Mulai dengan mengkloning proyek dan memasang pustaka yang diperlukan:
 ```bash
-composer require laravel/boost --dev
+# Clone repositori ini
+git clone [https://github.com/USERNAME_KAMU/NAMA_REPOSITORI.git](https://github.com/USERNAME_KAMU/NAMA_REPOSITORI.git)
 
-php artisan boost:install
+# Masuk ke direktori proyek
+cd NAMA_REPOSITORI
+
+# Install dependensi PHP (Composer)
+composer install
+
+# Install dependensi Frontend (NPM)
+npm install && npm run dev
+
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 2. Konfigurasi Environment (`.env`)
 
-## Contributing
+Salin file template environment bawaan Laravel:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+cp .env.example .env
 
-## Code of Conduct
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Buka file `.env` yang baru dibuat, sesuaikan kredensial database lokal kamu, dan pastikan konfigurasi zona waktu Indonesia Barat (WIB) sudah aktif:
 
-## Security Vulnerabilities
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nama_database_kamu
+DB_USERNAME=root
+DB_PASSWORD=
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+APP_TIMEZONE=Asia/Jakarta
 
-## License
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 3. Inisialisasi Aplikasi
+
+Generate kunci enkripsi aplikasi serta jalankan migrasi tabel beserta datanya:
+
+```bash
+# Generate app key
+php artisan key:generate
+
+# Jalankan migrasi tabel dan seeder awal
+php artisan migrate --seed
+
+```
+
+> 💡 **Informasi Login Awal**
+> Setelah proses database seeding selesai, kamu bisa login pada route `/admin/login` menggunakan akun pengujian berikut:
+> * **Email:** `test@example.com`
+> * **Password:** `password`
+> 
+> 
+
+### 4. Jalankan Aplikasi
+
+Nyalakan server lokal Laravel untuk menguji aplikasi di browser:
+
+```bash
+php artisan serve
+
+```
+
+Buka browser kamu dan akses alamat: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+---
+
+## ⚠️ Catatan Penting Server (`php.ini`)
+
+> **PENTING:** Karena sistem ini mendukung fitur **Import Massal Excel hingga 10MB**, pastikan konfigurasi server PHP lokal kamu (XAMPP / Laragon) disesuaikan agar tidak terkena kendala pembatasan file atau batas waktu eksekusi (*timeout*).
+
+Silakan buka berkas `php.ini` server kamu dan perbarui baris konfigurasi berikut:
+
+```ini
+; Tingkatkan batas waktu eksekusi (dalam detik) agar import data tidak timeout
+max_execution_time = 600
+
+; Sesuaikan batas upload file untuk mendukung file Excel kapasitas besar
+upload_max_filesize = 20M
+post_max_size = 25M
+
+```
+
+> 🔒 **Setelah Mengubah php.ini:** > 1. Restart service Apache/Nginx pada control panel XAMPP/Laragon kamu.
+> 2. Jalankan perintah `php artisan config:clear` di terminal proyek agar konfigurasi baru dimuat ulang secara bersih.
+
+---
+
+Dibuat dengan 💻 dan ☕ untuk kemajuan literasi SMP N Galas Malang.
+
+```
+
+```
