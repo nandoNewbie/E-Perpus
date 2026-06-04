@@ -16,32 +16,34 @@
             <option value="pending_extension">Minta Perpanjang</option>
             <option value="Diterima">Sedang Dipinjam</option>
             <option value="Ditolak">Ditolak</option>
+            <option value="Dikembalikan">Dikembalikan</option>
         </select>
     </div>
 
-    <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700">
-        <table class="w-full text-left border-collapse">
+    <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
+    <div class="w-full overflow-x-auto min-w-full align-middle">
+        <table class="w-full text-left border-collapse min-w-[800px]"> 
             <thead>
-                <tr class="bg-slate-700/50 text-slate-300 text-xs font-semibold uppercase border-b border-slate-700">
-                    <th class="p-4">Peminjam / Kelas</th>
-                    <th class="p-4">Judul Buku</th>
-                    <th class="p-4 text-center">Tgl Pinjam</th>
-                    <th class="p-4 text-center">Jatuh Tempo</th>
-                    <th class="p-4 text-center">Status / Info</th>
-                    <th class="p-4 text-center">Aksi</th>
+                <tr class="bg-slate-700/50 text-slate-300 text-xs font-semibold uppercase tracking-wider border-b border-slate-700">
+                    <th class="p-4 whitespace-nowrap">Peminjam / Kelas</th>
+                    <th class="p-4 whitespace-nowrap">Judul Buku</th>
+                    <th class="p-4 text-center whitespace-nowrap">Tgl Pinjam</th>
+                    <th class="p-4 text-center whitespace-nowrap">Jatuh Tempo</th>
+                    <th class="p-4 text-center whitespace-nowrap">Status / Info</th>
+                    <th class="p-4 text-center whitespace-nowrap">Aksi</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-700 text-sm text-slate-300">
                 @forelse($borrowings as $item)
                     <tr class="hover:bg-slate-700/30 transition">
-                        <td class="p-4">
+                        <td class="p-4 whitespace-nowrap">
                             <div class="font-semibold text-white">{{ $item->user->name }}</div>
                             <div class="text-xs text-slate-400">{{ $item->user->class }}</div>
                         </td>
-                        <td class="p-4 text-indigo-300 font-medium">{{ $item->book->title }}</td>
-                        <td class="p-4 text-center text-xs font-mono">{{ $item->borrow_date ?? '-' }}</td>
-                        <td class="p-4 text-center text-xs font-mono text-amber-400 font-bold">{{ $item->due_date ?? '-' }}</td>
-                        <td class="p-4 text-center">
+                        <td class="p-4 text-indigo-300 font-medium max-w-xs truncate">{{ $item->book->title }}</td>
+                        <td class="p-4 text-center text-xs font-mono whitespace-nowrap">{{ $item->borrow_date ?? '-' }}</td>
+                        <td class="p-4 text-center text-xs font-mono text-amber-400 font-bold whitespace-nowrap">{{ $item->due_date ?? '-' }}</td>
+                        <td class="p-4 text-center whitespace-nowrap">
                             <span class="px-2 py-0.5 text-xs rounded font-medium {{ $item->status === 'Diterima' ? 'bg-indigo-500/20 text-indigo-400' : ($item->status === 'Pending' ? 'bg-amber-500/20 text-amber-400' : 'bg-rose-500/20 text-rose-400') }}">
                                 {{ $item->status === 'Diterima' ? 'Sedang Dipinjam' : $item->status }}
                             </span>
@@ -51,7 +53,7 @@
                                 <div class="mt-1"><span class="px-2 py-0.5 text-[11px] rounded bg-emerald-500/20 text-emerald-400">Time Extended</span></div>
                             @endif
                         </td>
-                        <td class="p-4 text-center">
+                        <td class="p-4 text-center whitespace-nowrap">
                             <div class="flex justify-center gap-1">
                                 @if($item->extension_status === 'pending_extension')
                                     <button wire:click="acceptExtension({{ $item->id }})" class="bg-purple-600 hover:bg-purple-700 text-white px-2 py-1 rounded text-xs font-semibold shadow-sm">ACC Perpanjang</button>
@@ -72,6 +74,9 @@
                 @endforelse
             </tbody>
         </table>
-        <div class="p-4 bg-slate-800/50 border-t border-slate-700">{{ $borrowings->links() }}</div>
     </div>
+    <div class="p-4 bg-slate-800/50 border-t border-slate-700">
+        {{ $borrowings->links() }}
+    </div>
+</div>
 </div>
