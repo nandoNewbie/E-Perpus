@@ -46,9 +46,40 @@ class BorrowingManagement extends Component
             ->latest()
             ->paginate(10);
 
+        // 1. AMBIL DATA REQUEST YANG SUDAH LEWAT 24 JAM
+        $expiredRequests = Borrowing::where('status', 'pending')
+            ->where('created_at', '<=', Carbon::now()->subHours(24))
+            ->get();
+
+        // 2. KEMBALIKAN STOK BUKU & UBAH STATUS JADI EXPIRED
+        foreach ($expiredRequests as $request) {
+            // Ambil data buku terkait
+            $book = Book::find($request->book_id);
+            
+            if ($book) {
+                // Kembalikan stok buku yang sempat tertahan karena di-booking
+                $book->increment('stock'); 
+            }
+
+            // Ubah status transaksi tersebut menjadi expired
+            $request->update([
+                'status' => 'expired'
+            ]);
+        }
+
+        // 3. QUERY NORMAL TAMPILAN HALAMAN (Kode kamu yang sudah ada)
+        // Sekarang, data yang ditarik ke bawah sudah bersih dari status pending yang basi
+        $borrowings = Borrowing::query()
+            ->when($this->search, function($query) {
+                $query->where('invoice_number', 'like', '%' . $this->search . '%');
+                // ... atau filter pencarian kamu yang lain ...
+            })
+            ->latest()
+            ->paginate(10);
+
         return view('livewire.admin.borrowing-management', [
             'borrowings' => $borrowings
-        ]);
+        ]);                                                     
     }
 
     public function acceptBorrow($id)
