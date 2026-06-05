@@ -82,19 +82,30 @@
                     </div>
 
                     <div class="pt-4 border-t border-gray-100">
-                        @if($book->stock > 0 && strtolower($book->category ?? '') !== 'referensi')
-                            <button @click="openModal = true" class="w-full md:w-auto text-center px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm rounded-xl shadow-md hover:shadow-lg transition-all duration-150 focus:outline-none">
-                                Pinjam Buku Ini 📚✨
-                            </button>
-                        @elseif(strtolower($book->category ?? '') === 'referensi')
-                            <button disabled class="w-full md:w-auto text-center px-8 py-3.5 bg-amber-50 text-amber-700 border border-amber-200 font-bold text-sm rounded-xl cursor-not-allowed">
-                                🔒 Buku Referensi Hanya Bisa Dibaca di Perpustakaan!
-                            </button>
-                        @else
-                            <button disabled class="w-full md:w-auto text-center px-8 py-3.5 bg-gray-200 text-gray-400 font-bold text-sm rounded-xl cursor-not-allowed">
-                                Stok Habis, Tidak Bisa Dipinjam
-                            </button>
-                        @endif
+                        {{-- 1. CEK STATUS USER TERLEBIH DAHULU (Kasta Tertinggi) --}}
+                    @if (auth()->user()->class === 'Alumni')
+                        <div class="bg-amber-500/10 border border-amber-500/20 text-amber-400 p-4 rounded-xl text-xs font-medium w-full">
+                            🔒 Akun Anda berstatus Alumni. Anda hanya dapat melihat riwayat peminjaman lama dan tidak dapat melakukan request peminjaman buku baru.
+                        </div>
+
+                    {{-- 2. CEK KATEGORI BUKU --}}
+                    @elseif(strtolower($book->category ?? '') === 'referensi')
+                        <button disabled class="w-full md:w-auto text-center px-8 py-3.5 bg-amber-50 text-amber-700 border border-amber-200 font-bold text-sm rounded-xl cursor-not-allowed">
+                            🔒 Buku Referensi Hanya Bisa Dibaca di Perpustakaan!
+                        </button>
+
+                    {{-- 3. CEK STOK BUKU --}}
+                    @elseif($book->stock <= 0)
+                        <button disabled class="w-full md:w-auto text-center px-8 py-3.5 bg-slate-700 text-slate-500 border border-slate-600 font-bold text-sm rounded-xl cursor-not-allowed">
+                            ❌ Stok Habis, Tidak Bisa Dipinjam
+                        </button>
+
+                    {{-- 4. JIKA SEMUA SYARAT AMAN, TOMBOL PINJAM BARU MUNCUL --}}
+                    @else
+                        <button @click="openModal = true" class="w-full md:w-auto text-center px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm rounded-xl shadow-md hover:shadow-lg transition-all duration-150 focus:outline-none">
+                            Pinjam Buku Ini 📚✨
+                        </button>
+                    @endif
                     </div>
                 </div>
 

@@ -17,7 +17,7 @@
                 <div class="p-6 border-b border-slate-800 flex items-center gap-3">
                     <div class="bg-white text-white p-2 rounded-xl shadow-md shadow-indigo-500/30">
                         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2">
-                            <img src="{{ asset('images/logo-sekolah.png') }}" class="h-9 w-auto" alt="Logo Sekolah" onerror="this.style.display='none'">
+                            <img src="{{ asset('images/logo-sekolah.png') }}" class="h-10 w-auto" alt="Logo Sekolah" onerror="this.style.display='none'">
                         </a>
                     </div>
                     <div>
