@@ -26,6 +26,10 @@
                     {{ __('FaQ') }}
                 </x-nav-link>
 
+                <x-nav-link :href="route('virtual-tour')" :active="request()->routeIs('virtual-tour')">
+                    {{ __('Virtual Tour') }}
+                </x-nav-link>
+
                 <x-nav-link :href="'#'" class="opacity-50 cursor-not-allowed" onclick="return false;">
                     {{ __('Profil Sekolah') }}
                 </x-nav-link>
@@ -88,6 +92,10 @@
 
             <x-responsive-nav-link :href="route('faq')">
                 {{ __('FaQ') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('virtual-tour')">
+                {{ __('Virtual Tour') }}
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="'#'" class="opacity-50">

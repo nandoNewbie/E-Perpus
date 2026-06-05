@@ -22,6 +22,7 @@
                         <li><a href="{{ route('dashboard') }}" class="hover:text-indigo-400 transition">Beranda</a></li>
                         <li><a href="{{ route('books.index') }}" class="hover:text-indigo-400 transition">Daftar Buku</a></li>
                         <li><a href="{{ route('books.riwayat') }}" class="hover:text-indigo-400 transition">Riwayat</a></li>
+                        <li><a href="{{ route('virtual-tour') }}" class="hover:text-indigo-400 transition">Virtual Tour</a></li>
                         <li><a href="{{ route('faq') }}" class="hover:text-indigo-400 transition">FaQ</a></li>
                     </ul>
                 </div>
@@ -47,7 +48,6 @@
                     </iframe>
                 </div>
             </div>
-
         </div>
     </div>
 </footer>

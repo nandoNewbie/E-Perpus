@@ -13,6 +13,7 @@ use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\BookManagement;
 use App\Livewire\Admin\BorrowingManagement;
 use App\Livewire\Admin\ReturnManagement;
+use App\Http\Controllers\VirtualTourController;
 
 Route::get('/', WelcomeController::class)->name('welcome');
 
@@ -59,7 +60,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/riwayat-peminjaman', [DashboardController::class, 'riwayat'])->name('books.riwayat');
     Route::view('/faq', 'faq')->name('faq');
-});
+    Route::get('/virtual-tour', [VirtualTourController::class, 'index'])->name('virtual-tour');
+    }
+);
 
 // Rute Dashboard Admin (DIBUNGKUS middleware)
 Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
