@@ -15,9 +15,8 @@
                         </h1>
                         
                         <p class="text-lg text-gray-600 leading-relaxed">
-                            E-Library SMP N 14 Malang merupakan platform digital yang menyediakan berbagai koleksi buku untuk mendukung kegiatan belajar siswa dan guru. Melalui sistem ini, pengguna dapat dengan mudah mencari buku, mengetahui ketersediaan, serta melakukan peminjaman tanpa harus datang langsung ke perpustakaan.
-                            Platform ini dirancang untuk mempermudah akses informasi, meningkatkan efisiensi layanan perpustakaan, serta  mendorong budaya literasi di lingkungan sekolah. 
-                            {{-- <span class="font-semibold text-gray-800">e-Library</span> resmi kami. --}}
+                            E-Library SMP N 13 Malang merupakan platform digital yang menyediakan berbagai koleksi buku untuk mendukung kegiatan belajar siswa dan guru. Melalui sistem ini, pengguna dapat dengan mudah mencari buku, mengetahui ketersediaan, serta melakukan peminjaman tanpa harus datang langsung ke perpustakaan.
+                            Platform ini dirancang untuk mempermudah akses informasi, meningkatkan efisiensi layanan perpustakaan, serta  mendorong budaya literasi di lingkungan sekolah.
                         </p>
 
                         <div class="pt-2 flex flex-wrap justify-center md:justify-start gap-4">
