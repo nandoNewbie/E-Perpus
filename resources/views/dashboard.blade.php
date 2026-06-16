@@ -7,7 +7,7 @@
                     
                     <div class="space-y-4 max-w-2xl text-center md:text-left">
                         <div class="flex justify-center md:justify-start mb-2">
-                            <img src="{{ asset('images/logo-sekolah.png') }}" class="h-12 w-auto" alt="Logo Sekolah" onerror="this.style.display='none'">
+                            <img src="{{ asset('images/logo-sekolah.webp') }}" class="h-12 w-auto" alt="Logo Sekolah" onerror="this.style.display='none'">
                         </div>
 
                         <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
