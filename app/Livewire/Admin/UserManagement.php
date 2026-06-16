@@ -24,6 +24,7 @@ class UserManagement extends Component
     // Properti Filter & Search
     public $search = '';
     public $filterRole = '';
+    public $filterKelas = '';
 
     // Properti Modal Form CRUD
     public $isOpen = false;
@@ -55,6 +56,9 @@ class UserManagement extends Component
             })
             ->when($this->filterRole, function($query) {
                 $query->where('role', $this->filterRole);
+            })
+            ->when($this->filterKelas, function($query) {
+                $query->where('class', 'LIKE', $this->filterKelas . '%');
             })
             ->latest()
             ->paginate(10);
@@ -232,4 +236,5 @@ class UserManagement extends Component
             session()->flash('error', 'Gagal memproses kelulusan siswa: ' . $e->getMessage());
         }
     }
+
 }

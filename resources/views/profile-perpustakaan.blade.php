@@ -6,7 +6,7 @@
             Informasi Institusi
         </span>
         <h1 class="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">Profil Perpustakaan</h1>
-        <p class="text-gray-500 text-sm md:text-base">Mengenal lebih dekat pusat literasi dan sumber belajar SMP Negeri 13 Malang</p>
+        <p class="text-sm md:text-base">"Membaca Hari Ini, Menginspirasi Masa Depan."</p>
         <div class="w-16 h-1 bg-blue-600 mx-auto mt-4 rounded-full"></div>
     </div>
 
