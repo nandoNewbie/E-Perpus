@@ -81,7 +81,7 @@
                         <svg class="w-5 h-5 text-gray-400 transition-transform duration-200" :class="{ 'transform rotate-180 text-indigo-600': activeFaq === 7 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                     <div x-show="activeFaq === 7" x-collapse class="border-t border-gray-50 bg-gray-50/50 p-6 text-sm text-gray-600 leading-relaxed">
-                        Setiap siswa dibatasi maksimal meminjam atau mengajukan <span class="font-bold text-indigo-600">3 judul buku</span> dalam satu waktu bersamaan. Pembatasan ini diterapkan agar distribusi koleksi buku merata dan mencegah monopoli buku oleh satu orang pengguna.
+                        Setiap siswa dibatasi maksimal meminjam atau mengajukan <span class="font-bold text-indigo-600">2 judul buku</span> untuk siswa dan <span class="font-bold text-indigo-600">3 judul buku</span> untuk guru dalam satu waktu bersamaan. Pembatasan ini diterapkan agar distribusi koleksi buku merata dan mencegah monopoli buku oleh satu orang pengguna.
                     </div>
                 </div>
 

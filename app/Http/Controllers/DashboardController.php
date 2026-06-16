@@ -94,13 +94,24 @@ public function pinjam(Request $request, int $id)
             return redirect()->back()->with('error', 'Kamu sudah meminta atau sedang meminjam buku ini!');
         }
 
+        // 1. Hitung jumlah peminjaman aktif pengguna saat ini
         $activeCount = Borrowing::where('user_id', $user->id)
             ->whereIn('status', ['Pending', 'Diterima'])
             ->count();
 
-        if ($activeCount >= 3) {
-            return redirect()->back()->with('error', 'Gagal! Batas maksimal peminjaman adalah 3 buku.');
+        // 2. Tentukan batas maksimal limit secara dinamis berdasarkan role akun
+        $maxBuku = 3; // Nilai default cadangan jika role tidak terdefinisi
+
+        if ($user->role === 'siswa') {
+            $maxBuku = 2;
+        } elseif ($user->role === 'guru') {
+            $maxBuku = 3;
         }
+
+        // 3. Bandingkan jumlah peminjaman aktif dengan limit dinamis tersebut
+        if ($activeCount >= $maxBuku) {
+            return redirect()->back()->with('error', "Gagal! Batas maksimal peminjaman untuk " . ucfirst($user->role) . " adalah {$maxBuku} buku.");
+        }   
 
         // Jalankan transaksi database (Booking stok)
         DB::transaction(function () use ($user, $book) {

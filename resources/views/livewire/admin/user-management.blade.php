@@ -102,6 +102,14 @@
                 @endforeach
             </select>
         </div>
+        <div class="w-full md:w-48">
+        <select wire:model.live="filterKelas" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500">
+            <option value="">Semua Tingkat</option>
+            <option value="7">Kelas 7</option>
+            <option value="8">Kelas 8</option>
+            <option value="9">Kelas 9</option>
+        </select>
+    </div>
     </div>
 
     <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700">
