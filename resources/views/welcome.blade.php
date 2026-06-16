@@ -18,7 +18,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                 <div class="flex items-center shrink-0">
                     <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
-                        <img src="{{ asset('images/logo-sekolah.png') }}" class="h-9 w-auto" alt="Logo Sekolah" onerror="this.style.display='none'">
+                        <img src="{{ asset('images/logo-sekolah.webp') }}" class="h-9 w-auto" alt="Logo Sekolah" onerror="this.style.display='none'">
                         <span class="font-bold text-lg text-gray-800">| e-library</span>
                     </a>
                 </div>

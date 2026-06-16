@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pustakawan Dashboard - Library MS</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @livewireStyles
 </head>
 <body class="bg-slate-900 font-sans antialiased" x-data="{ sidebarOpen: false }">
@@ -17,7 +18,7 @@
                 <div class="p-6 border-b border-slate-800 flex items-center gap-3">
                     <div class="bg-white text-white p-2 rounded-xl shadow-md shadow-indigo-500/30">
                         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2">
-                            <img src="{{ asset('images/logo-sekolah.png') }}" class="h-10 w-auto" alt="Logo Sekolah" onerror="this.style.display='none'">
+                            <img src="{{ asset('images/logo-sekolah.webp') }}" class="h-10 w-auto" alt="Logo Sekolah" onerror="this.style.display='none'">
                         </a>
                     </div>
                     <div>

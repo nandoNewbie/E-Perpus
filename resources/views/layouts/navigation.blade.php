@@ -4,7 +4,7 @@
             
             <div class="flex items-center shrink-0">
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
-                    <img src="{{ asset('images/logo-sekolah.png') }}" class="h-9 w-auto" alt="Logo Sekolah" onerror="this.style.display='none'">
+                    <img src="{{ asset('images/logo-sekolah.webp') }}" class="h-9 w-auto" alt="Logo Sekolah" onerror="this.style.display='none'">
                     <span class="font-bold text-lg text-gray-800">| e-library</span>
                 </a>
             </div>
@@ -30,8 +30,8 @@
                     {{ __('Virtual Tour') }}
                 </x-nav-link>
 
-                <x-nav-link :href="'#'" class="opacity-50 cursor-not-allowed" onclick="return false;">
-                    {{ __('Profil Sekolah') }}
+                <x-nav-link :href="route('profile-perpustakaan')" :active="request()->routeIs('profile-perpustakaan')">
+                    {{ __('Profil Perpustakaan') }}
                 </x-nav-link>
             </div>
 
@@ -98,8 +98,8 @@
                 {{ __('Virtual Tour') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="'#'" class="opacity-50">
-                {{ __('Profil Sekolah (Soon)') }}
+            <x-responsive-nav-link :href="route('profile-perpustakaan')" :active="request()->routeIs('profile-perpustakaan')">
+                {{ __('Profil Perpustakaan') }}
             </x-responsive-nav-link>
         </div>
 

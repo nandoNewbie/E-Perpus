@@ -4,7 +4,7 @@
             
             <div class="space-y-4">
                 <div class="flex items-center gap-2 text-white">
-                    <img src="{{ asset('images/logo-sekolah.png') }}" class="h-10 w-auto" alt="Logo Sekolah" onerror="this.style.display='none'">
+                    <img src="{{ asset('images/logo-sekolah.webp') }}" class="h-10 w-auto" alt="Logo Sekolah" onerror="this.style.display='none'">
                     <span class="font-bold text-xl tracking-tight">e-library</span>
                 </div>
                 <p class="text-sm text-gray-400 leading-relaxed">
