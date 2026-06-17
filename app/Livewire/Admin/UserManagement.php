@@ -29,7 +29,7 @@ class UserManagement extends Component
     // Properti Modal Form CRUD
     public $isOpen = false;
     public $isEditMode = false;
-    public mixed $userId, $name, $identity_number, $class, $role = 'siswa';
+    public mixed $userId, $name, $identity_number, $class = null, $email = null, $role = 'siswa';
 
     // Properti Modal Import
     public $isImportOpen = false;
@@ -85,6 +85,7 @@ class UserManagement extends Component
         $user = User::findOrFail($id);
         $this->userId = $user->id;
         $this->name = $user->name;
+        $this->email = $user->email;
         $this->class = $user->class;
         $this->identity_number = $user->identity_number;
         $this->role = $user->role;
@@ -112,13 +113,15 @@ class UserManagement extends Component
     {
         $this->validate([
             'name'  => 'required|string|max:255',
-            'class' => 'required|string|max:255',
+            'email' => 'nullable|string|email|max:255|unique:users',
+            'class' => 'nullable|string|max:255',
             'identity_number' => 'required|unique:users,identity_number',
             'role'  => 'required|string',
         ]);
 
         User::create([
             'name'     => $this->name,
+            'email'    => $this->email,
             'class'    => $this->class,
             'identity_number' => $this->identity_number,
             'password' => Hash::make('password123'), // Default password
@@ -133,7 +136,8 @@ class UserManagement extends Component
     {
         $this->validate([
             'name'  => 'required|string|max:255',
-            'class' => 'required|string|max:255',
+            'email' => 'nullable|string|email|max:255|unique:users,email,' . $this->userId,
+            'class' => 'nullable|string|max:255',
             'identity_number' => 'required|unique:users,identity_number,' . $this->userId,
             'role'  => 'required|string',
         ]);
@@ -141,7 +145,8 @@ class UserManagement extends Component
         $user = User::findOrFail($this->userId);
         $user->update([
             'name'  => $this->name,
-            'class'    => $this->class,
+            'email' => $this->email,
+            'class' => $this->class,
             'identity_number' => $this->identity_number,
             'role'  => $this->role,
         ]);
