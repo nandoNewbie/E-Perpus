@@ -27,67 +27,20 @@
         </div>
     @endif
 
-    {{-- Manajemen Kenaikan & Rolling Kelas --}}
-    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 mb-6">
-        <h3 class="text-lg font-semibold text-white mb-1">Manajemen Kenaikan & Rolling Kelas</h3>
-        <p class="text-xs text-slate-400 mb-4">Gunakan fitur ini setiap pergantian tahun ajaran baru untuk mengacak kelas siswa tanpa merusak riwayat peminjaman buku.</p>
+    {{-- KENAIKAN KELAS MASSAL --}}
+    <button wire:click="kenaikanKelasMassal" 
+            wire:confirm="Apakah Anda yakin ingin memproses kenaikan kelas massal? Tindakan ini akan menaikkan semua siswa kelas 7 ke 8, kelas 8 ke 9, dan meluluskan kelas 9."
+            class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-sm font-medium transition flex items-center gap-2">
+        <span>🚀</span> Kenaikan Kelas Massal
+    </button>
 
-        @if (session()->has('message'))
-            <div class="p-3 mb-4 text-sm bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-lg">
-                {{ session('message') }}
-            </div>
-        @endif
-        @if (session()->has('error'))
-            <div class="p-3 mb-4 text-sm bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-lg">
-                {{ session('error') }}
-            </div>
-        @endif
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="space-y-2">
-                <label class="block text-sm font-medium text-slate-300">Langkah 1: Unduh Data Siswa</label>
-                <button wire:click="exportStudents" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition inline-flex items-center justify-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                    Download Data Format Excel
-                </button>
-            </div>
-
-            <div class="space-y-2">
-                <label class="block text-sm font-medium text-slate-300">Langkah 2: Upload File Hasil Edit</label>
-                <form wire:submit.prevent="importStudents" class="flex gap-2">
-                    <input type="file" wire:model="excelFile" class="block w-full text-sm text-slate-400
-                        file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0
-                        file:text-xs file:font-semibold file:bg-slate-700 file:text-slate-200
-                        hover:file:bg-slate-600 border border-slate-700 rounded-lg bg-slate-900/50 p-1">
-                        
-                    <button type="submit" wire:loading.attr="disabled" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition inline-flex items-center justify-center gap-2">
-                        <span wire:loading wire:target="excelFile" class="animate-spin inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full"></span>
-                        <span>Upload</span>
-                    </button>
-                </form>
-                @error('excelFile') <span class="text-xs text-rose-400 mt-1 block">{{ $message }}</span> @enderror
-            </div>
-        </div>
-    </div>
-
-    {{-- Ubah kelas 9 menjadi Alumni (Arsip) --}}
-    <div class="mt-6 pt-6 border-t border-slate-700/60 p-6 mb-6 bg-slate-800 rounded-xl">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div class="space-y-1">
-                <h4 class="text-sm font-semibold text-rose-400 inline-flex items-center gap-1.5">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                    Zona Bahaya: Kelulusan Siswa
-                </h4>
-                <p class="text-xs text-slate-400">Tombol ini akan mengubah semua siswa yang kelasnya diawali angka 9 (9A, 9B, dst) secara permanen menjadi status 'Alumni'.</p>
-            </div>
-            
-            <button 
-                wire:click="archiveGrade9"
-                wire:confirm="PERINGATAN AKHIR!\n\nApakah kamu yakin ingin meluluskan semua siswa kelas 9 menjadi Alumni?\nTindakan ini akan mengubah data kelas secara massal dan tidak bisa dibatalkan."
-                class="w-full sm:w-auto bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 hover:border-transparent text-rose-300 hover:text-white px-4 py-2 rounded-lg text-xs font-bold shadow-sm transition duration-200">
-                Luluskan & Arsipkan Kelas 9
-            </button>
-        </div>
+    <div class="mt-2 bg-slate-700/40 border border-slate-600 p-4 rounded-xl text-xs text-slate-300">
+        <p class="font-semibold text-amber-400 mb-1">💡 Informasi Alur Otomatis Kenaikan Kelas:</p>
+        <ul class="list-disc list-inside space-y-1">
+            <li>Siswa dengan status Kelas <strong class="text-white">7</strong> otomatis berubah menjadi Kelas <strong class="text-white">8</strong></li>
+            <li>Siswa dengan status Kelas <strong class="text-white">8</strong> otomatis berubah menjadi Kelas <strong class="text-white">9</strong></li>
+            <li>Siswa dengan status Kelas <strong class="text-white">9</strong> otomatis dialihkan menjadi <strong class="text-white">Alumni</strong></li>
+        </ul>
     </div>
 
     <div class="bg-slate-800 p-4 rounded-xl mb-6 flex flex-col md:flex-row gap-4">
