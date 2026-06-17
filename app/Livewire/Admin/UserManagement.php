@@ -189,57 +189,92 @@ class UserManagement extends Component
         }
     }
 
-    public function exportStudents()
-    {
-        return Excel::download(new StudentClassExport, 'Format_Rolling_Kelas_Siswa.xlsx');
-    }
-
     /**
-     * FUNGSI IMPORT: Memproses file Excel yang di-upload untuk update kelas
+     * FUNGSI OTOMATIS: Memproses kenaikan kelas massal tingkat 7 & 8, serta kelulusan kelas 9
      */
-    public function importStudents()
-    {
-        $this->validate([
-            'excelFile' => 'required|mimes:xlsx,xls,csv|max:10240', // Maksimal file 10MB
-        ]);
-
-        try {
-            // Eksekusi proses import
-            Excel::import(new StudentClassImport, $this->excelFile->getRealPath());
-
-            // Bersihkan form input setelah sukses
-            $this->reset('excelFile');
-
-            session()->flash('message', 'Berhasil memperbarui data rolling kelas siswa secara massal!');
-        } catch (\Exception $e) {
-            session()->flash('error', 'Eror Asli: ' . $e->getMessage());
-        }
-    }
-
-    public function archiveGrade9()
+    public function kenaikanKelasMassal()
     {
         try {
-            // 1. Hitung dulu ada berapa siswa kelas 9 saat ini
+            // 1. Hitung total siswa kelas 9 sebelum diluluskan untuk notifikasi
             $totalSiswaKelas9 = User::where('role', 'siswa')
-                                    ->where('class', 'LIKE', '9%')
+                                    ->where('class', '9')
                                     ->count();
 
-            if ($totalSiswaKelas9 === 0) {
-                session()->flash('error', 'Tidak ditemukan siswa kelas 9 yang aktif saat ini.');
-                return;
-            }
-
-            // 2. Eksekusi perubahan massal di database
+            // 2. Siswa kelas 9 lulus, ubah data kelasnya menjadi 'Alumni'
             User::where('role', 'siswa')
-                ->where('class', 'LIKE', '9%')
+                ->where('class', '9')
                 ->update(['class' => 'Alumni']);
 
-            // 3. Berikan notifikasi sukses beserta jumlah siswa yang diubah
-            session()->flash('message', "Berhasil meluluskan {$totalSiswaKelas9} siswa kelas 9 menjadi Alumni!");
+            // 3. Siswa kelas 8 naik ke kelas 9
+            User::where('role', 'siswa')
+                ->where('class', '8')
+                ->update(['class' => '9']);
+
+            // 4. Siswa kelas 7 naik ke kelas 8
+            User::where('role', 'siswa')
+                ->where('class', '7')
+                ->update(['class' => '8']);
+
+            // Berikan notifikasi sukses ke browser
+            session()->flash('message', "Berhasil! Proses kenaikan kelas massal selesai. Sebanyak {$totalSiswaKelas9} siswa kelas 9 telah diubah menjadi Alumni.");
             
         } catch (\Exception $e) {
-            session()->flash('error', 'Gagal memproses kelulusan siswa: ' . $e->getMessage());
+            session()->flash('error', 'Gagal memproses kenaikan kelas: ' . $e->getMessage());
         }
     }
+
+
+    // public function exportStudents()
+    // {
+    //     return Excel::download(new StudentClassExport, 'Format_Rolling_Kelas_Siswa.xlsx');
+    // }
+
+    // /**
+    //  * FUNGSI IMPORT: Memproses file Excel yang di-upload untuk update kelas
+    //  */
+    // public function importStudents()
+    // {
+    //     $this->validate([
+    //         'excelFile' => 'required|mimes:xlsx,xls,csv|max:10240', // Maksimal file 10MB
+    //     ]);
+
+    //     try {
+    //         // Eksekusi proses import
+    //         Excel::import(new StudentClassImport, $this->excelFile->getRealPath());
+
+    //         // Bersihkan form input setelah sukses
+    //         $this->reset('excelFile');
+
+    //         session()->flash('message', 'Berhasil memperbarui data rolling kelas siswa secara massal!');
+    //     } catch (\Exception $e) {
+    //         session()->flash('error', 'Eror Asli: ' . $e->getMessage());
+    //     }
+    // }
+
+    // public function archiveGrade9()
+    // {
+    //     try {
+    //         // 1. Hitung dulu ada berapa siswa kelas 9 saat ini
+    //         $totalSiswaKelas9 = User::where('role', 'siswa')
+    //                                 ->where('class', 'LIKE', '9%')
+    //                                 ->count();
+
+    //         if ($totalSiswaKelas9 === 0) {
+    //             session()->flash('error', 'Tidak ditemukan siswa kelas 9 yang aktif saat ini.');
+    //             return;
+    //         }
+
+    //         // 2. Eksekusi perubahan massal di database
+    //         User::where('role', 'siswa')
+    //             ->where('class', 'LIKE', '9%')
+    //             ->update(['class' => 'Alumni']);
+
+    //         // 3. Berikan notifikasi sukses beserta jumlah siswa yang diubah
+    //         session()->flash('message', "Berhasil meluluskan {$totalSiswaKelas9} siswa kelas 9 menjadi Alumni!");
+            
+    //     } catch (\Exception $e) {
+    //         session()->flash('error', 'Gagal memproses kelulusan siswa: ' . $e->getMessage());
+    //     }
+    // }
 
 }

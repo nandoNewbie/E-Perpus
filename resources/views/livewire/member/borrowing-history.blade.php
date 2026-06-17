@@ -8,6 +8,10 @@
         <div class="mb-4 p-3 bg-emerald-950/50 border border-emerald-500 text-emerald-400 rounded-lg text-sm">{{ session('success') }}</div>
     @endif
 
+    @if (session()->has('error'))
+        <div class="mb-4 p-3 bg-rose-950/50 border border-rose-500 text-rose-400 rounded-lg text-sm">{{ session('error') }}</div>
+    @endif
+
     <div class="overflow-x-auto rounded-lg border border-slate-700">
         <table class="w-full text-left border-collapse">
             <thead>
@@ -32,9 +36,24 @@
                         </td>
                         <td class="p-4 text-center">
                             @if($item->status === 'Diterima' && $item->extension_status === null)
-                                <button wire:click="requestExtension({{ $item->id }})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-xs font-medium transition shadow-sm">
-                                    Ajukan Tambah 7 Hari
-                                </button>
+                                
+                                @php
+                                    $hariIni = \Carbon\Carbon::now()->startOfDay();
+                                    $jatuhTempo = \Carbon\Carbon::parse($item->due_date)->startOfDay();
+                                    $selisihHari = $hariIni->diffInDays($jatuhTempo, false);
+                                @endphp
+
+                                @if($selisihHari == 1 || $selisihHari == 0)
+                                    <button wire:click="requestExtension({{ $item->id }})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-xs font-medium transition shadow-sm">
+                                        Ajukan Tambah 7 Hari
+                                    </button>
+                                @else
+                                    <button disabled class="bg-slate-700 text-slate-500 px-3 py-1 rounded text-xs font-medium cursor-not-allowed border border-slate-600" 
+                                            title="Perpanjangan hanya tersedia H-1 sebelum jatuh tempo">
+                                        Terkunci (H-1)
+                                    </button>
+                                @endif
+
                             @elseif($item->extension_status === 'pending_extension')
                                 <span class="text-amber-400 text-xs italic">Menunggu ACC Pustakawan...</span>
                             @elseif($item->extension_status === 'approved_extension')
