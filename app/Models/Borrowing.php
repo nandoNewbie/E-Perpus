@@ -9,6 +9,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Borrowing extends Model
 {
     use HasFactory;
+    const STATUS_PENDING = 'Pending';
+    const STATUS_DITERIMA = 'Diterima';
+    const STATUS_DITOLAK = 'Ditolak';
+    const STATUS_DIKEMBALIKAN = 'Dikembalikan';
+    const STATUS_EXPIRED = 'Expired';
+
+    const STATUSES = [
+        self::STATUS_PENDING,
+        self::STATUS_DITERIMA,
+        self::STATUS_DITOLAK,
+        self::STATUS_DIKEMBALIKAN,
+        self::STATUS_EXPIRED,
+    ];
 
     protected $fillable = [
         'user_id',
