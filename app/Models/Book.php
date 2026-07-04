@@ -26,9 +26,8 @@ class Book extends Model
     {
         if (!$this->cover) return null;
         
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
-        $disk = Storage::disk('s3');
+        $publicUrl = 'https://pub-eda10e471fff43c8b6b3e22b66478998.r2.dev';
         
-        return $disk->url($this->cover);
+        return $publicUrl . '/' . $this->cover;
     }
 }
