@@ -17,7 +17,7 @@
             <option value="Diterima">Sedang Dipinjam</option>
             <option value="Ditolak">Ditolak</option>
             <option value="Dikembalikan">Dikembalikan</option>
-            <option value="Expired">Terlambat</option>
+            <option value="Expired">Tidak Diambil</option>
         </select>
     </div>
 
