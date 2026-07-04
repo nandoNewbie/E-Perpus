@@ -64,7 +64,7 @@ class BorrowingManagement extends Component
                 }
             })
             // ✅ Ganti FIELD() dengan orderBy yang kompatibel SQLite & MySQL
-            ->orderByRaw("CASE WHEN extension_status = 'pending_extension' THEN 0 ELSE 1 END")
+            ->orderByRaw("FIELD(extension_status, 'pending_extension') DESC")
             ->latest()
             ->paginate(10);
 

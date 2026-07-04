@@ -6,21 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('books', function (Blueprint $table) {
-            if (Schema::hasIndex('books', 'books_title_author_unique')) {
-                $table->dropUnique('books_title_author_unique');
-            }
+            $table->dropUnique('books_title_author_unique');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('books', function (Blueprint $table) {
