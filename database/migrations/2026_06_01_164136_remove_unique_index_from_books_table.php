@@ -7,10 +7,14 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     public function up(): void
-    {
-        Schema::table('books', function (Blueprint $table) {
-            $table->dropUnique('books_title_author_unique');
-        });
+        {
+        try {
+            Schema::table('books', function (Blueprint $table) {
+                $table->dropUnique('books_title_author_unique');
+            });
+        } catch (\Exception $e) {
+            // Index tidak ada, abaikan
+        }
     }
 
     public function down(): void
