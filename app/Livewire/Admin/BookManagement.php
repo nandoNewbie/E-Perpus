@@ -112,23 +112,24 @@ class BookManagement extends Component
 
         $coverPath = null;
         if ($this->cover) {
-            $coverPath = $this->cover->store('covers', 'public');
+            // ✅ Ganti 'public' menjadi 's3'
+            $coverPath = $this->cover->store('covers', 's3');
         }
 
         Book::create([
-            'title' => $this->title,
-            'author' => $this->author,
-            'publisher' => $this->publisher,
+            'title'          => $this->title,
+            'author'         => $this->author,
+            'publisher'      => $this->publisher,
             'published_place' => $this->published_place,
             'published_year' => $this->published_year,
-            'edition' => $this->edition,
-            'stock' => $this->stock,
-            'language' => $this->language,
-            'isbn' => $this->isbn,
-            'description' => $this->description,
-            'cover' => $coverPath,
-            'category' => $this->category,
-            'ddc' => $this->ddc,
+            'edition'        => $this->edition,
+            'stock'          => $this->stock,
+            'language'       => $this->language,
+            'isbn'           => $this->isbn,
+            'description'    => $this->description,
+            'cover'          => $coverPath,
+            'category'       => $this->category,
+            'ddc'            => $this->ddc,
         ]);
 
         session()->flash('success', 'Buku berhasil ditambahkan!');
@@ -167,25 +168,27 @@ class BookManagement extends Component
         $coverPath = $book->cover;
         if ($this->cover instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
             if ($book->cover) {
-                Storage::disk('public')->delete($book->cover);
+                // ✅ Ganti 'public' menjadi 's3'
+                Storage::disk('s3')->delete($book->cover);
             }
-            $coverPath = $this->cover->store('covers', 'public');
+            // ✅ Ganti 'public' menjadi 's3'
+            $coverPath = $this->cover->store('covers', 's3');
         }
 
         $book->update([
-            'title' => $this->title,
-            'author' => $this->author,
-            'publisher' => $this->publisher,
+            'title'          => $this->title,
+            'author'         => $this->author,
+            'publisher'      => $this->publisher,
             'published_place' => $this->published_place,
             'published_year' => $this->published_year,
-            'edition' => $this->edition,
-            'stock' => $this->stock,
-            'language' => $this->language,
-            'isbn' => $this->isbn,
-            'description' => $this->description,
-            'cover' => $coverPath,
-            'category' => $this->category,
-            'ddc' => $this->ddc,
+            'edition'        => $this->edition,
+            'stock'          => $this->stock,
+            'language'       => $this->language,
+            'isbn'           => $this->isbn,
+            'description'    => $this->description,
+            'cover'          => $coverPath,
+            'category'       => $this->category,
+            'ddc'            => $this->ddc,
         ]);
 
         session()->flash('success', 'Data buku berhasil diperbarui!');
@@ -196,14 +199,14 @@ class BookManagement extends Component
     {
         $book = Book::findOrFail($id);
 
-        // Aturan Poin 5: Cek apakah sedang dipinjam siswa
         if ($book->borrowings()->count() > 0) {
             session()->flash('error', 'Buku tidak boleh dihapus karena sedang dipinjam oleh siswa!');
             return;
         }
 
         if ($book->cover) {
-            Storage::disk('public')->delete($book->cover);
+            // ✅ Ganti 'public' menjadi 's3'
+            Storage::disk('s3')->delete($book->cover);
         }
 
         $book->delete();
