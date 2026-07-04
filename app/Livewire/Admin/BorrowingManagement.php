@@ -24,8 +24,29 @@ class BorrowingManagement extends Component
         $this->resetPage();
     }
 
+    // Pisahkan logika expired ke method sendiri
+    private function processExpiredRequests(): void
+    {
+        $expiredRequests = Borrowing::where('status', Borrowing::STATUS_PENDING)
+            ->where('created_at', '<=', Carbon::now()->subHours(24))
+            ->get();
+
+        foreach ($expiredRequests as $request) {
+            $book = Book::find($request->book_id);
+
+            if ($book) {
+                $book->increment('stock');
+            }
+
+            $request->update(['status' => Borrowing::STATUS_EXPIRED]);
+        }
+    }
+
     public function render()
     {
+        // Proses expired dulu sebelum query tampilan
+        $this->processExpiredRequests();
+
         $borrowings = Borrowing::with(['user', 'book'])
             ->when($this->search, function($query) {
                 $query->whereHas('user', function($q) {
@@ -42,51 +63,21 @@ class BorrowingManagement extends Component
                     $query->where('status', $this->filterStatus);
                 }
             })
-            ->orderByRaw("FIELD(extension_status, 'pending_extension') DESC")
-            ->latest()
-            ->paginate(10);
-
-        // 1. AMBIL DATA REQUEST YANG SUDAH LEWAT 24 JAM
-        $expiredRequests = Borrowing::where('status', 'pending')
-            ->where('created_at', '<=', Carbon::now()->subHours(24))
-            ->get();
-
-        // 2. KEMBALIKAN STOK BUKU & UBAH STATUS JADI EXPIRED
-        foreach ($expiredRequests as $request) {
-            // Ambil data buku terkait
-            $book = Book::find($request->book_id);
-            
-            if ($book) {
-                // Kembalikan stok buku yang sempat tertahan karena di-booking
-                $book->increment('stock'); 
-            }
-
-            // Ubah status transaksi tersebut menjadi expired
-            $request->update([
-                'status' => 'expired'
-            ]);
-        }
-
-        // 3. QUERY NORMAL TAMPILAN HALAMAN (Kode kamu yang sudah ada)
-        // Sekarang, data yang ditarik ke bawah sudah bersih dari status pending yang basi
-        $borrowings = Borrowing::query()
-            ->when($this->search, function($query) {
-                $query->where('invoice_number', 'like', '%' . $this->search . '%');
-                // ... atau filter pencarian kamu yang lain ...
-            })
+            // ✅ Ganti FIELD() dengan orderBy yang kompatibel SQLite & MySQL
+            ->orderByRaw("CASE WHEN extension_status = 'pending_extension' THEN 0 ELSE 1 END")
             ->latest()
             ->paginate(10);
 
         return view('livewire.admin.borrowing-management', [
-            'borrowings' => $borrowings
-        ]);                                                     
+            'borrowings' => $borrowings,
+        ]);
     }
 
     public function acceptBorrow($id)
     {
         $borrowing = Borrowing::findOrFail($id);
         $borrowing->update([
-            'status'      => 'Diterima',
+            'status'      => Borrowing::STATUS_DITERIMA,
             'borrow_date' => Carbon::now()->toDateString(),
             'due_date'    => Carbon::now()->addDays(7)->toDateString(),
         ]);
@@ -98,24 +89,23 @@ class BorrowingManagement extends Component
         $borrowing = Borrowing::findOrFail($id);
         $book      = Book::findOrFail($borrowing->book_id);
 
-        // Kembalikan stok karena peminjaman dibatalkan/ditolak
         $book->increment('stock');
 
-        $borrowing->update(['status' => 'Ditolak']);
+        $borrowing->update(['status' => Borrowing::STATUS_DITOLAK]);
         session()->flash('success', 'Peminjaman buku telah ditolak. Stok buku dikembalikan.');
     }
 
     public function acceptExtension($id)
     {
         $borrowing = Borrowing::findOrFail($id);
-        
-        // Tambahkan durasi jatuh tempo 7 hari dari tanggal jatuh tempo lama
-        $currentDueDate = Carbon::parse($borrowing->due_date);
-        $newDueDate     = $currentDueDate->addDays(7)->toDateString();
+
+        $newDueDate = Carbon::parse($borrowing->due_date)
+            ->addDays(7)
+            ->toDateString();
 
         $borrowing->update([
             'due_date'         => $newDueDate,
-            'extension_status' => 'approved_extension'
+            'extension_status' => 'approved_extension',
         ]);
 
         session()->flash('success', 'Masa pinjam buku berhasil diperpanjang 7 hari!');
