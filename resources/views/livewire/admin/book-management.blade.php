@@ -1,3 +1,9 @@
+@php use 
+
+Illuminate\Support\Facades\Storage; 
+
+@endphp
+
 <div class="p-0.5 bg-slate-900 min-h-screen text-slate-100">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div>
@@ -60,7 +66,7 @@
                         <tr class="hover:bg-slate-700/30 transition">
                             <td class="p-4 w-20">
                                 @if($book->cover)
-                                    <img src="{{ asset('storage/' . $book->cover) }}" class="w-12 h-16 object-cover rounded shadow">
+                                    <img src="{{ $book->cover_url }}" class="w-12 h-16 object-cover rounded shadow">
                                 @else
                                     <div class="w-12 h-16 bg-slate-700 rounded flex items-center justify-center text-[10px] text-slate-400 text-center p-1 border border-slate-600">No Cover</div>
                                 @endif
@@ -200,7 +206,7 @@
                             @elseif ($existingCover)
                                 <div>
                                     <span class="text-xs text-slate-400 block mb-1">Sampul Saat Ini:</span>
-                                    <img src="{{ asset('storage/' . $existingCover) }}" class="w-16 h-20 object-cover rounded shadow border border-slate-600">
+                                    <img src="{{ Storage::disk('s3')->url($existingCover) }}" class="w-16 h-20 object-cover rounded shadow border border-slate-600">
                                 </div>
                             @endif
                         </div>
