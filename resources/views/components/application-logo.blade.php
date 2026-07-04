@@ -1,1 +1,1 @@
-<img src="{{ asset('images/logo-sekolah.png') }}" alt="Logo Sekolah" class="h-20 w-auto">
+<img src="{{ asset('images/logo-sekolah.webp') }}" alt="Logo Sekolah" class="h-20 w-auto">
