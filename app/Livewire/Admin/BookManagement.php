@@ -113,7 +113,7 @@ class BookManagement extends Component
         $coverPath = null;
         if ($this->cover) {
             // ✅ Ganti 'public' menjadi 's3'
-            $coverPath = $this->cover->store('covers', 's3');
+            $coverPath = $this->cover->store('covers', 'public');
         }
 
         Book::create([
@@ -169,10 +169,10 @@ class BookManagement extends Component
         if ($this->cover instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
             if ($book->cover) {
                 // ✅ Ganti 'public' menjadi 's3'
-                Storage::disk('s3')->delete($book->cover);
+                Storage::disk('public')->delete($book->cover);
             }
             // ✅ Ganti 'public' menjadi 's3'
-            $coverPath = $this->cover->store('covers', 's3');
+            $coverPath = $this->cover->store('covers', 'public');
         }
 
         $book->update([
@@ -206,7 +206,7 @@ class BookManagement extends Component
 
         if ($book->cover) {
             // ✅ Ganti 'public' menjadi 's3'
-            Storage::disk('s3')->delete($book->cover);
+            Storage::disk('public')->delete($book->cover);
         }
 
         $book->delete();
