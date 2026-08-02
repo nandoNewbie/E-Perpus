@@ -158,16 +158,28 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4">
-                                @if($log->fine_status == 'Lunas')
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-emerald-950/80 text-emerald-400 border border-emerald-800/60">
+                                @if($log->fine_status === 'Belum Lunas')
+                                    <div class="flex items-center gap-2">
+                                        <!-- Badge Belum Lunas -->
+                                        <span class="px-2 py-1 text-xs font-semibold rounded bg-rose-500/20 text-rose-400">
+                                            Belum Lunas
+                                        </span>
+                                        
+                                        <!-- Tombol Pelunasan Denda -->
+                                        <button 
+                                            wire:click="payFine({{ $log->id }})"
+                                            wire:confirm="Konfirmasi pembayaran denda Rp. {{ number_format($log->fine_amount, 0, ',', '.') }} dari peminjam ini?"
+                                            class="px-2 py-1 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded transition duration-150"
+                                            title="Tandai Denda Lunas">
+                                            ✓ Lunas
+                                        </button>
+                                    </div>
+                                @elseif($log->fine_status === 'Lunas')
+                                    <span class="px-2 py-1 text-xs font-semibold rounded bg-emerald-500/20 text-emerald-400">
                                         Lunas
                                     </span>
-                                @elseif($log->fine_status == 'Belum Lunas')
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-rose-950/80 text-rose-400 border border-rose-800/60 animate-pulse">
-                                        Belum Lunas
-                                    </span>
                                 @else
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-700/60 text-slate-400">
+                                    <span class="px-2 py-1 text-xs font-semibold rounded bg-slate-500/20 text-slate-400">
                                         Tepat Waktu
                                     </span>
                                 @endif

@@ -50,18 +50,20 @@ class ReturnManagement extends Component
     {
         if (!$this->selectedBorrowing) return;
 
-        $dueDate = Carbon::parse($this->selectedBorrowing->due_date);
-        $returnDate = Carbon::parse($this->returnDate);
+        // Reset kedua tanggal ke jam 00:00:00 agar perhitungan murni berdasarkan hari
+        $dueDate = Carbon::parse($this->selectedBorrowing->due_date)->startOfDay();
+        $returnDate = Carbon::parse($this->returnDate)->startOfDay();
 
         // Jika tanggal pengembalian melewati jatuh tempo
         if ($returnDate->gt($dueDate)) {
-            $this->lateDays = $returnDate->diffInDays($dueDate);
+            // Menggunakan abs() untuk memastikan angka hari PASTI POSITIF (misal: 37)
+            $this->lateDays = (int) abs($returnDate->diffInDays($dueDate));
             $this->fineAmount = $this->lateDays * 500;
-            $this->fineStatus = 'Lunas';
+            $this->fineStatus = 'Belum Lunas'; // Atau 'Lunas' sesuai aturan operasionalmu
         } else {
             $this->lateDays = 0;
             $this->fineAmount = 0;
-            $this->fineStatus = 'none';
+            $this->fineStatus = 'Lunas';
         }
     }
 
@@ -78,6 +80,9 @@ class ReturnManagement extends Component
             return;
         }
 
+        // Pastikan kalkulasi denda terbaru dipanggil tepat sebelum penyimpanan
+        $this->calculateFine();
+
         $borrowing = Borrowing::findOrFail($this->selectedBorrowingId);
         $book = Book::findOrFail($borrowing->book_id);
 
@@ -92,11 +97,11 @@ class ReturnManagement extends Component
 
             // 3. Catat transaksi ke dalam return_logs
             ReturnLog::create([
-                'borrowing_id'  => $borrowing->id,
-                'return_date'   => $this->returnDate,
-                'late_days'     => $this->lateDays,
-                'fine_amount'   => $this->fineAmount,
-                'fine_status'   => $this->fineStatus,
+                'borrowing_id'    => $borrowing->id,
+                'return_date'     => $this->returnDate,
+                'late_days'       => $this->lateDays,      // Sekarang tersimpan angka positif (misal: 37)
+                'fine_amount'     => $this->fineAmount,    // Sekarang tersimpan angka positif (misal: 18500)
+                'fine_status'     => $this->fineStatus,
                 'pustakawan_name' => Auth::user()->name, 
             ]);
         });
@@ -130,5 +135,19 @@ class ReturnManagement extends Component
             'searchResults' => $searchResults,
             'returnLogs' => $returnLogs
         ]);
+    }
+
+    public function payFine($returnLogId)
+    {
+        // 1. Cari log pengembalian berdasarkan ID
+        $log = ReturnLog::findOrFail($returnLogId);
+
+        // 2. Ubah status denda menjadi 'Lunas'
+        $log->update([
+            'fine_status' => 'Lunas'
+        ]);
+
+        // 3. Tampilkan pesan sukses
+        session()->flash('success', 'Status denda berhasil diubah menjadi LUNAS. Anggota kini dapat meminjam buku kembali.');
     }
 }
