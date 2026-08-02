@@ -8,6 +8,7 @@ use App\Models\Borrowing;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ReturnLog;
 
 class DashboardController extends Controller
 {
@@ -72,62 +73,77 @@ public function show(int $id)
 }
 
 public function pinjam(Request $request, int $id)
-    {
-        $user = Auth::user();
-        $book = Book::findOrFail($id);
+{
+    $user = Auth::user();
+    $book = Book::findOrFail($id);
 
-        if (strtolower($book->category) === 'referensi') {
-        session()->flash('error', 'Gagal! Buku dengan kategori referensi hanya boleh dibaca di perpustakaan.');
-        return;
+    // =========================================================================
+    // 0. Cek apakah pengguna memiliki denda yang BELUM LUNAS di return_logs
+    // =========================================================================
+    $hasUnpaidFine = ReturnLog::where('fine_status', 'Belum Lunas')
+        ->whereHas('borrowing', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+        ->exists();
+
+    if ($hasUnpaidFine) {
+        return redirect()->back()->with('error', 'Gagal mengajukan peminjaman! Kamu masih memiliki denda keterlambatan yang BELUM LUNAS. Silakan selesaikan pembayaran denda ke Pustakawan terlebih dahulu.');
     }
 
-        if ($book->stock <= 0) {
-            return redirect()->back()->with('error', 'Maaf, stok buku ini sudah habis!');
-        }
-
-        $alreadyBorrowed = Borrowing::where('user_id', $user->id)
-            ->where('book_id', $id)
-            ->whereIn('status', ['Pending', 'Diterima'])
-            ->exists();
-
-        if ($alreadyBorrowed) {
-            return redirect()->back()->with('error', 'Kamu sudah meminta atau sedang meminjam buku ini!');
-        }
-
-        // 1. Hitung jumlah peminjaman aktif pengguna saat ini
-        $activeCount = Borrowing::where('user_id', $user->id)
-            ->whereIn('status', ['Pending', 'Diterima'])
-            ->count();
-
-        // 2. Tentukan batas maksimal limit secara dinamis berdasarkan role akun
-        $maxBuku = 3; // Nilai default cadangan jika role tidak terdefinisi
-
-        if ($user->role === 'siswa') {
-            $maxBuku = 2;
-        } elseif ($user->role === 'guru') {
-            $maxBuku = 3;
-        }
-
-        // 3. Bandingkan jumlah peminjaman aktif dengan limit dinamis tersebut
-        if ($activeCount >= $maxBuku) {
-            return redirect()->back()->with('error', "Gagal! Batas maksimal peminjaman untuk " . ucfirst($user->role) . " adalah {$maxBuku} buku.");
-        }   
-
-        // Jalankan transaksi database (Booking stok)
-        DB::transaction(function () use ($user, $book) {
-            $book->decrement('stock');
-
-            Borrowing::create([
-                'user_id'     => $user->id,
-                'book_id'     => $book->id,
-                'status'      => 'Pending',
-                'borrow_date' => $this->borrowDate ?? Carbon::now()->toDateString(),
-                'due_date'    => $this->dueDate ?? Carbon::now()->addDays(7)->toDateString(),
-            ]);
-        });
-
-        return redirect()->route('books.riwayat')->with('success', 'Request peminjaman berhasil dikirim! Stok telah di-booking.');
+    // 1. Cek Kategori Referensi
+    if (strtolower($book->category) === 'referensi') {
+        return redirect()->back()->with('error', 'Gagal! Buku dengan kategori referensi hanya boleh dibaca di perpustakaan.');
     }
+
+    // 2. Cek Stok Buku
+    if ($book->stock <= 0) {
+        return redirect()->back()->with('error', 'Maaf, stok buku ini sudah habis!');
+    }
+
+    // 3. Cek apakah buku yang sama sedang dipinjam / diajukan
+    $alreadyBorrowed = Borrowing::where('user_id', $user->id)
+        ->where('book_id', $id)
+        ->whereIn('status', ['Pending', 'Diterima'])
+        ->exists();
+
+    if ($alreadyBorrowed) {
+        return redirect()->back()->with('error', 'Kamu sudah meminta atau sedang meminjam buku ini!');
+    }
+
+    // 4. Hitung jumlah peminjaman aktif pengguna saat ini
+    $activeCount = Borrowing::where('user_id', $user->id)
+        ->whereIn('status', ['Pending', 'Diterima'])
+        ->count();
+
+    // 5. Tentukan batas maksimal limit secara dinamis berdasarkan role akun
+    $maxBuku = 3; // Nilai default cadangan jika role tidak terdefinisi
+
+    if ($user->role === 'siswa') {
+        $maxBuku = 2;
+    } elseif ($user->role === 'guru') {
+        $maxBuku = 3;
+    }
+
+    // 6. Bandingkan jumlah peminjaman aktif dengan limit dinamis
+    if ($activeCount >= $maxBuku) {
+        return redirect()->back()->with('error', "Gagal! Batas maksimal peminjaman untuk " . ucfirst($user->role) . " adalah {$maxBuku} buku.");
+    }   
+
+    // 7. Jalankan transaksi database (Booking stok & Buat Request)
+    DB::transaction(function () use ($user, $book) {
+        $book->decrement('stock');
+
+        Borrowing::create([
+            'user_id'     => $user->id,
+            'book_id'     => $book->id,
+            'status'      => 'Pending',
+            'borrow_date' => Carbon::now()->toDateString(),
+            'due_date'    => Carbon::now()->addDays(7)->toDateString(),
+        ]);
+    });
+
+    return redirect()->route('books.riwayat')->with('success', 'Request peminjaman berhasil dikirim! Stok telah di-booking.');
+}
 
 public function riwayat()
 {
