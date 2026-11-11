@@ -13,6 +13,8 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @include('partials.pwa-head')
+
     </head>
     <body class="flex flex-col min-h-screen justify-between">
         <div class="min-h-screen bg-gray-100">

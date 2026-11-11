@@ -1,0 +1,51 @@
+{
+    "name": "E-Perpus SMP N Galas Malang",
+    "short_name": "E-Perpus",
+    "description": "Sistem informasi perpustakaan SMP N Galas Malang: katalog buku, peminjaman, dan pengembalian.",
+    "lang": "id",
+    "dir": "ltr",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "background_color": "#ffffff",
+    "theme_color": "#4f46e5",
+    "icons": [
+        {
+            "src": "/images/icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/images/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/images/icons/icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/images/icons/icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Daftar Buku",
+            "short_name": "Katalog",
+            "url": "/daftar-buku"
+        },
+        {
+            "name": "Dashboard",
+            "short_name": "Dashboard",
+            "url": "/dashboard"
+        }
+    ]
+}

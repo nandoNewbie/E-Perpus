@@ -11,6 +11,8 @@
         @else
             <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         @endif
+    @include('partials.pwa-head')
+
     </head>
     <body class="bg-gray-100 text-gray-900 antialiased font-sans selection:bg-indigo-500 selection:text-white">
         

@@ -7,6 +7,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @livewireStyles
+
+    @include('partials.pwa-head')
+
 </head>
 <body class="bg-slate-900 font-sans antialiased" x-data="{ sidebarOpen: false }">
 
