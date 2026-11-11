@@ -1,10 +1,12 @@
 # E-Perpus SMP N Galas Malang 📚✨
 
-[![Laravel Version](https://img.shields.io/badge/Laravel-11.x-red.svg)](https://laravel.com)
-[![PHP Version](https://img.shields.io/badge/PHP-8.4-777BB4.svg)](https://www.php.net/)
+[![Laravel Version](https://img.shields.io/badge/Laravel-12.x-red.svg)](https://laravel.com)
+[![PHP Version](https://img.shields.io/badge/PHP-8.3%2B-777BB4.svg)](https://www.php.net/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 **E-Perpus SMP N Galas Malang** adalah sistem informasi manajemen perpustakaan berbasis web yang dirancang khusus untuk mempermudah pengelolaan sirkulasi buku, manajemen anggota, serta proses peminjaman dan pengembalian secara efisien, responsif, dan *real-time*.
+
+> 📘 **Akan meng-hosting aplikasi ini?** Baca [**DEPLOYMENT.md**](DEPLOYMENT.md) — berisi panduan lengkap cPanel/VPS, konfigurasi produksi, daftar masalah yang sudah diketahui, dan checklist go-live.
 
 ---
 
@@ -35,34 +37,57 @@ Aplikasi ini dibangun menggunakan ekosistem komponen modern berikut:
 
 | Komponen | Teknologi | Keterangan |
 | :--- | :--- | :--- |
-| **Backend Framework** | Laravel 11.x | Core system & routing |
-| **Runtime Environment**| PHP 8.4 | Versi PHP terbaru |
-| **Database** | MySQL | Penyimpanan data relasional |
+| **Backend Framework** | Laravel 12.x | Core system & routing |
+| **Runtime Environment**| PHP 8.3+ | Diuji pada PHP 8.4 |
+| **Database** | MySQL 8 / MariaDB 10.4+ | Penyimpanan data relasional |
 | **Reactivity Layer** | Livewire 3 & Alpine.js | Proses asinkronous & komponen interaktif |
 | **CSS Framework** | Tailwind CSS | Desain antarmuka responsif |
 | **Library Pendukung** | Maatwebsite/Laravel-Excel | Handler import data massal |
 
 ---
 
+## 🌿 Kondisi Branch
+
+Repositori ini memiliki tiga branch, dan **belum ada satu branch pun yang memuat seluruh perbaikan**:
+
+| Branch | Isi | Penyimpanan cover buku |
+| :--- | :--- | :--- |
+| `main` | Versi dasar | Cloudflare R2 (cloud) |
+| `demo-ngrok` | Logika aplikasi paling lengkap (blokir pinjam saat denda belum lunas, perbaikan hitung denda, `payFine()`) | Disk lokal server |
+| `debug` | `main` + migrasi tabel `sessions` & `password_reset_tokens`, serta dukungan PWA | Cloudflare R2 (cloud) |
+
+Untuk produksi, disarankan menggabungkan `demo-ngrok` dengan `debug`. Penjelasan lengkap ada di [DEPLOYMENT.md bagian 2](DEPLOYMENT.md).
+
+---
+
 ## ⚙️ Panduan Instalasi Lokal
 
-Ikuti langkah-langkah di bawah ini untuk memasang dan menjalankan proyek di lingkungan *development* kamu:
+Ikuti langkah-langkah di bawah ini untuk memasang dan menjalankan proyek di lingkungan *development* kamu.
+
+### 0. Prasyarat
+
+* **PHP 8.3** atau lebih baru, dengan extension berikut aktif:
+  `gd`, `zip`, `pdo_mysql`, `mbstring`, `openssl`, `curl`, `fileinfo`, `bcmath`, `tokenizer`, `xml`, `ctype`
+* **Composer 2.x**
+* **Node.js 18+** dan **npm**
+* **MySQL 8** atau **MariaDB 10.4+** (tersedia di XAMPP / Laragon)
 
 ### 1. Persiapan Repositori & Dependensi
+
 Mulai dengan mengkloning proyek dan memasang pustaka yang diperlukan:
+
 ```bash
 # Clone repositori ini
-git clone [https://github.com/USERNAME_KAMU/NAMA_REPOSITORI.git](https://github.com/USERNAME_KAMU/NAMA_REPOSITORI.git)
+git clone https://github.com/nandoNewbie/E-Perpus.git
 
 # Masuk ke direktori proyek
-cd NAMA_REPOSITORI
+cd E-Perpus
 
 # Install dependensi PHP (Composer)
 composer install
 
 # Install dependensi Frontend (NPM)
-npm install && npm run dev
-
+npm install
 ```
 
 ### 2. Konfigurasi Environment (`.env`)
@@ -71,7 +96,6 @@ Salin file template environment bawaan Laravel:
 
 ```bash
 cp .env.example .env
-
 ```
 
 Buka file `.env` yang baru dibuat, sesuaikan kredensial database lokal kamu, dan pastikan konfigurasi zona waktu Indonesia Barat (WIB) sudah aktif:
@@ -80,44 +104,63 @@ Buka file `.env` yang baru dibuat, sesuaikan kredensial database lokal kamu, dan
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=nama_database_kamu
+DB_DATABASE=db_eperpus
 DB_USERNAME=root
 DB_PASSWORD=
 
 APP_TIMEZONE=Asia/Jakarta
 
+# Branch main & demo-ngrok belum memiliki tabel `sessions`,
+# sehingga wajib memakai driver file. Pada branch `debug`
+# nilai ini boleh diisi `database`.
+SESSION_DRIVER=file
 ```
 
 ### 3. Inisialisasi Aplikasi
-
-Generate kunci enkripsi aplikasi serta jalankan migrasi tabel beserta datanya:
 
 ```bash
 # Generate app key
 php artisan key:generate
 
-# Jalankan migrasi tabel dan seeder awal
-php artisan migrate --seed
+# Jalankan migrasi tabel
+php artisan migrate
 
+# Buat symlink agar file upload (cover buku) bisa diakses publik
+php artisan storage:link
 ```
 
-> 💡 **Informasi Login Awal**
-> Setelah proses database seeding selesai, kamu bisa login pada route `/admin/login` menggunakan akun pengujian berikut:
-> * **Email:** `test@example.com`
-> * **Password:** `password`
-> 
-> 
+> ⚠️ **Jangan jalankan `php artisan db:seed`.** Seeder bawaan hanya membuat satu user dummy (`test@example.com`) dengan role `siswa` yang tidak dipakai aplikasi ini.
 
 ### 4. Jalankan Aplikasi
 
-Nyalakan server lokal Laravel untuk menguji aplikasi di browser:
+Buka **dua terminal** terpisah:
 
 ```bash
+# Terminal 1 — server Laravel
 php artisan serve
+```
 
+```bash
+# Terminal 2 — build asset & watch perubahan
+npm run dev
 ```
 
 Buka browser kamu dan akses alamat: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+> Untuk produksi, cukup jalankan `npm run build` sekali — tidak perlu `npm run dev`.
+
+---
+
+## 🔑 Akun & Login
+
+| Peran | Halaman login | Keterangan |
+| :--- | :--- | :--- |
+| **Pustakawan / Admin** | `/admin/login` | Email: `adminpustakawan@gmail.com` |
+| **Siswa & Guru** | `/login` | Password default: `password123` |
+
+* **Pendaftaran publik sengaja ditutup.** Akun siswa dibuat terpusat oleh Admin, atau melalui import massal dari Excel.
+* Password akun Admin tidak dicantumkan di repositori ini. Silakan minta langsung kepada pembuat aplikasi, lalu segera ganti.
+* Jika database masih kosong, belum ada akun apa pun — buat akun pustakawan pertama secara manual lewat database atau `php artisan tinker`.
 
 ---
 
@@ -134,16 +177,22 @@ max_execution_time = 600
 ; Sesuaikan batas upload file untuk mendukung file Excel kapasitas besar
 upload_max_filesize = 20M
 post_max_size = 25M
-
+memory_limit = 256M
 ```
 
-> 🔒 **Setelah Mengubah php.ini:** > 1. Restart service Apache/Nginx pada control panel XAMPP/Laragon kamu.
-> 2. Jalankan perintah `php artisan config:clear` di terminal proyek agar konfigurasi baru dimuat ulang secara bersih.
+🔒 **Setelah mengubah `php.ini`:**
+
+1. Restart service Apache/Nginx pada control panel XAMPP/Laragon kamu.
+2. Jalankan perintah `php artisan config:clear` di terminal proyek agar konfigurasi baru dimuat ulang secara bersih.
+
+---
+
+## 🌐 Hosting & Produksi
+
+Panduan hosting ke cPanel, VPS, atau layanan lain — termasuk konfigurasi `.env` produksi, pemindahan database, penanganan cover buku, daftar masalah yang sudah diketahui, dan checklist go-live — tersedia lengkap di:
+
+📄 **[DEPLOYMENT.md](DEPLOYMENT.md)**
 
 ---
 
 Dibuat dengan 💻 dan ☕ untuk kemajuan literasi SMP N Galas Malang.
-
-```
-
-```
