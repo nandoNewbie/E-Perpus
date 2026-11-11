@@ -323,6 +323,21 @@ sengaja **tidak ikut di-commit** ke Git (perilaku standar Laravel). Saat
 repository di-clone, file gambar tidak ikut terbawa; database hanya menyimpan
 nama filenya saja.
 
+> Ini bukan bug. Folder upload memang tidak seharusnya masuk Git. Konsekuensinya,
+> **setiap clone baru selalu tanpa cover** sampai filenya disalin manual atau
+> di-upload ulang. Karena itu folder `storage/app/public/` wajib ikut di-backup
+> (lihat bagian 11).
+
+Pada branch **`demo-ngrok`** (penyimpanan disk lokal, opsi A di bawah), kondisi
+ini sudah ditangani: `Book::getCoverUrlAttribute()` mengecek keberadaan file
+terlebih dahulu, sehingga tampilan otomatis memakai placeholder "No Cover"
+alih-alih ikon gambar rusak.
+
+Pada branch `main` / `debug` yang memakai Cloudflare R2, pengecekan serupa belum
+ada — mengecek keberadaan objek di cloud berarti satu HTTP request per buku,
+yang terlalu mahal. Bila nanti tetap memakai R2, gunakan atribut `onerror` pada
+tag `<img>` sebagai penggantinya.
+
 ### 7.2 Dua cara penyimpanan cover
 
 Tergantung branch yang dipakai:
@@ -344,10 +359,36 @@ sederhana, tanpa layanan pihak ketiga dan tanpa biaya.
 * Catatan: domain bawaan Cloudflare `*.r2.dev` **diblokir sebagian ISP di
   Indonesia** (mis. MyRepublic), sehingga custom domain memang diperlukan.
 
-### 7.3 Cara memperbaiki
+### 7.3 Cara memulihkan cover
 
-Gunakan opsi A, lalu upload ulang 10 cover lewat menu admin
-**Manajemen Buku → Edit**. Jumlahnya sedikit, jadi relatif cepat.
+**Bila file aslinya masih ada** (di komputer tempat dulu meng-upload) — ini cara
+tercepat. Salin seluruh isi folder `covers/` dari komputer lama ke server:
+
+```
+storage/app/public/covers/
+```
+
+Nama file tidak perlu dicocokkan satu per satu: Laravel menyimpan cover dengan
+nama acak yang sama persis dengan yang tercatat di database, jadi cukup salin
+satu folder utuh dan cover langsung muncul kembali.
+
+Pastikan symlink sudah dibuat:
+
+```bash
+php artisan storage:link
+```
+
+**Bila file aslinya sudah hilang** — upload ulang lewat menu admin
+**Manajemen Buku → Edit**. Hanya 10 buku, jadi relatif cepat.
+
+### 7.4 Mengecek cover mana yang hilang
+
+```bash
+php artisan tinker --execute="
+foreach (App\Models\Book::whereNotNull('cover')->where('cover','<>','')->get() as \$b) {
+    echo (\$b->cover_url ? '[ada]    ' : '[HILANG] ') . \$b->title . PHP_EOL;
+}"
+```
 
 ---
 
