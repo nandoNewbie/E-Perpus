@@ -22,13 +22,21 @@ class Book extends Model
         // Sesuaikan 'Borrowing' dengan nama model transaksi peminjamanmu
         return $this->hasMany(Borrowing::class)->where('status', 'dipinjam'); 
     }
-    // public function getCoverUrlAttribute(): ?string
-    // {
-    //     if (!$this->cover) return null;
-    //     return 'https://storage.perpusgalas.online/' . $this->cover;
-        
-    //     // $publicUrl = 'https://pub-eda10e471fff43c8b6b3e22b66478998.r2.dev';
-        
-    //     // return $publicUrl . '/' . $this->cover;
-    // }
+    /**
+     * URL cover buku, atau null bila file gambarnya tidak ada.
+     *
+     * File hasil upload disimpan di storage/app/public dan sengaja tidak
+     * ikut masuk Git, sehingga pada clone baru folder covers/ kosong
+     * meskipun kolom `cover` di database terisi. Dengan mengecek keberadaan
+     * file lebih dulu, tampilan jatuh ke placeholder "No Cover" yang sudah
+     * ada, bukan menampilkan gambar rusak.
+     */
+    public function getCoverUrlAttribute(): ?string
+    {
+        if (! $this->cover || ! Storage::disk('public')->exists($this->cover)) {
+            return null;
+        }
+
+        return asset('storage/' . $this->cover);
+    }
 }

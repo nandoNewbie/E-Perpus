@@ -65,8 +65,8 @@ Illuminate\Support\Facades\Storage;
                     @forelse($books as $book)
                         <tr class="hover:bg-slate-700/30 transition">
                             <td class="p-4 w-20">
-                                @if($book->cover)
-                                    <img src="{{ asset('storage/' . $book->cover) }}" class="w-12 h-16 object-cover rounded shadow">
+                                @if($book->cover_url)
+                                    <img src="{{ $book->cover_url }}" class="w-12 h-16 object-cover rounded shadow">
                                 @else
                                     <div class="w-12 h-16 bg-slate-700 rounded flex items-center justify-center text-[10px] text-slate-400 text-center p-1 border border-slate-600">No Cover</div>
                                 @endif
@@ -203,7 +203,7 @@ Illuminate\Support\Facades\Storage;
                                     <span class="text-xs text-slate-400 block mb-1">Pratinjau:</span>
                                     <img src="{{ $cover->temporaryUrl() }}" class="w-16 h-20 object-cover rounded shadow border border-indigo-500">
                                 </div>
-                            @elseif ($existingCover)
+                            @elseif ($existingCover && Storage::disk('public')->exists($existingCover))
                                 <div>
                                     <span class="text-xs text-slate-400 block mb-1">Sampul Saat Ini:</span>
                                     <img src="{{ asset('storage/' . $existingCover) }}" class="w-16 h-20 object-cover rounded shadow border border-slate-600">
